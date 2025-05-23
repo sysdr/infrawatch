@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfraWatch Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f1419; color: #e6e6e6; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: #00d4aa; font-size: 2.5em; margin-bottom: 10px; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .status-card { background: linear-gradient(135deg, #1e2328 0%, #2d3748 100%); padding: 25px; border-radius: 12px; border-left: 5px solid #00d4aa; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); }
+        .status-healthy { border-left-color: #00d4aa; }
+        .status-warning { border-left-color: #ffd700; }
+        .status-error { border-left-color: #ff6b6b; }
+        .card-title { font-size: 1.4em; margin-bottom: 15px; color: #ffffff; }
+        .card-content p { margin: 8px 0; font-size: 1.1em; }
+        .loading { text-align: center; color: #888; font-size: 1.2em; }
+        .metrics-bar { background: #1a202c; padding: 20px; border-radius: 8px; margin-bottom: 30px; display: flex; justify-content: space-around; }
+        .metric { text-align: center; }
+        .metric-value { font-size: 2em; font-weight: bold; color: #00d4aa; }
+        .metric-label { color: #a0aec0; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 InfraWatch</h1>
+            <p>Real-time Infrastructure Monitoring Dashboard</p>
+        </div>
+        
+        <div id="metrics-container"></div>
+        <div id="status-container" class="loading">Loading infrastructure status...</div>
+    </div>
+
+    <script>
+        // Global variables to track system state
+        let refreshInterval;
+        let lastUpdateTime;
+
+        async function loadInfrastructureStatus() {
+            try {
+                const response = await fetch('http://localhost:3001/api/infrastructure/status');
+                const data = await response.json();
+                
+                // Update metrics bar
+                const metricsContainer = document.getElementById('metrics-container');
+                metricsContainer.innerHTML = `
+                    <div class="metrics-bar">
+                        <div class="metric">
+                            <div class="metric-value">${data.services.length}</div>
+                            <div class="metric-label">Services</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.totalRequests.toLocaleString()}</div>
+                            <div class="metric-label">Total Requests</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.responseTime}</div>
+                            <div class="metric-label">Avg Response</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Update status cards
+                const container = document.getElementById('status-container');
+                container.innerHTML = `
+                    <div class="status-grid">
+                        ${data.services.map(service => `
+                            <div class="status-card status-healthy">
+                                <h3 class="card-title">${service.name}</h3>
+                                <div class="card-content">
+                                    <p><strong>Status:</strong> ${service.status}</p>
+                                    <p><strong>Uptime:</strong> ${service.uptime}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p style="text-align: center; margin-top: 30px; color: #64748b;">
+                        🕒 Last updated: ${new Date(data.timestamp).toLocaleString()}
+                    </p>
+                `;
+                
+                lastUpdateTime = new Date();
+            } catch (error) {
+                document.getElementById('status-container').innerHTML = 
+                    '<div style="text-align: center; color: #ff6b6b; font-size: 1.2em;">⚠️ Failed to load infrastructure status<br>Please ensure backend is running on port 3001</div>';
+            }
+        }
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInfrastructureStatus();
+            // Refresh every 10 seconds for real-time feeling
+            refreshInterval = setInterval(loadInfrastructureStatus, 10000);
+        });
+    </script>
+</body>
+</html>
