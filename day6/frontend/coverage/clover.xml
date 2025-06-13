@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1749394191626" clover="3.2.0">
+  <project timestamp="1749394191626" name="All files">
+    <metrics statements="49" coveredstatements="42" conditionals="20" coveredconditionals="15" methods="12" coveredmethods="9" elements="81" coveredelements="66" complexity="0" loc="49" ncloc="49" packages="2" files="3" classes="3"/>
+    <package name="src">
+      <metrics statements="43" coveredstatements="40" conditionals="18" coveredconditionals="15" methods="9" coveredmethods="9"/>
+      <file name="App.js" path="/Users/sumedhshende/sysd/infrawatch/day6/frontend/src/App.js">
+        <metrics statements="43" coveredstatements="40" conditionals="18" coveredconditionals="15" methods="9" coveredmethods="9"/>
+        <line num="4" count="1" type="cond" truecount="2" falsecount="0"/>
+        <line num="7" count="55" type="stmt"/>
+        <line num="8" count="54" type="stmt"/>
+        <line num="9" count="54" type="stmt"/>
+        <line num="10" count="54" type="stmt"/>
+        <line num="16" count="54" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="20" count="54" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="22" count="8" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="24" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="36" count="54" type="stmt"/>
+        <line num="37" count="3" type="stmt"/>
+        <line num="39" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="53" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="57" count="2" type="stmt"/>
+        <line num="58" count="2" type="stmt"/>
+        <line num="59" count="2" type="stmt"/>
+        <line num="62" count="2" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="68" count="54" type="stmt"/>
+        <line num="69" count="6" type="stmt"/>
+        <line num="76" count="6" type="cond" truecount="1" falsecount="1"/>
+        <line num="79" count="54" type="cond" truecount="2" falsecount="0"/>
+        <line num="80" count="8" type="stmt"/>
+        <line num="83" count="46" type="cond" truecount="2" falsecount="0"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="87" count="45" type="stmt"/>
+        <line num="103" count="24" type="stmt"/>
+        <line num="114" count="1" type="stmt"/>
+        <line num="130" count="12" type="stmt"/>
+        <line num="146" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.mocks">
+      <metrics statements="6" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="handlers.js" path="/Users/sumedhshende/sysd/infrawatch/day6/frontend/src/mocks/handlers.js">
+        <metrics statements="5" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="38" count="0" type="stmt"/>
+      </file>
+      <file name="server.js" path="/Users/sumedhshende/sysd/infrawatch/day6/frontend/src/mocks/server.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
