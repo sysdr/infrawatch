@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block title %}JWT Authentication Dashboard{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="auth-container p-5">
+            <div class="text-center mb-4">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-shield-alt text-primary"></i>
+                    JWT Authentication Dashboard
+                </h1>
+                <p class="lead text-muted">Secure user authentication with JWT tokens</p>
+            </div>
+
+            <!-- Authentication Status -->
+            <div id="authStatus" class="alert alert-info d-none">
+                <i class="fas fa-info-circle me-2"></i>
+                <span id="authStatusText"></span>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-sign-in-alt me-2"></i>Login</h5>
+                </div>
+                <div class="card-body">
+                    <form id="loginFormElement">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-plus me-2"></i>Register</h5>
+                </div>
+                <div class="card-body">
+                    <form id="registerFormElement">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registerFirstName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registerLastName" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-user-plus me-2"></i>Register
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- User Profile (Hidden by default) -->
+            <div id="userProfile" class="card d-none">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>User Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div id="profileData"></div>
+                    <div class="mt-3">
+                        <button id="refreshTokenBtn" class="btn btn-warning me-2">
+                            <i class="fas fa-sync-alt me-2"></i>Refresh Token
+                        </button>
+                        <button id="logoutBtn" class="btn btn-danger">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Status -->
+            <div class="card mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-server me-2"></i>API Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Health Check:</strong> <span id="healthStatus">Checking...</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Token Status:</strong> <span id="tokenStatus">No token</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentToken = null;
+let currentRefreshToken = null;
+
+// API Base URL
+const API_BASE = window.location.origin;
+
+// Utility functions
+function showAlert(message, type = 'info') {
+    const alert = document.getElementById('authStatus');
+    const alertText = document.getElementById('authStatusText');
+    alert.className = `alert alert-${type}`;
+    alertText.textContent = message;
+    alert.classList.remove('d-none');
+    setTimeout(() => alert.classList.add('d-none'), 5000);
+}
+
+function updateTokenStatus() {
+    const tokenStatus = document.getElementById('tokenStatus');
+    if (currentToken) {
+        tokenStatus.innerHTML = '<span class="text-success"><i class="fas fa-check-circle"></i> Valid</span>';
+    } else {
+        tokenStatus.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle"></i> No token</span>';
+    }
+}
+
+// Health check
+async function checkHealth() {
+    try {
+        const response = await axios.get(`${API_BASE}/health`);
+        document.getElementById('healthStatus').innerHTML = 
+            '<span class="text-success"><i class="fas fa-check-circle"></i> Online</span>';
+    } catch (error) {
+        document.getElementById('healthStatus').innerHTML = 
+            '<span class="text-danger"><i class="fas fa-times-circle"></i> Offline</span>';
+    }
+}
+
+// Login form handler
+document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    try {
+        const response = await axios.post(`${API_BASE}/auth/login`, {
+            email: email,
+            password: password
+        });
+        
+        currentToken = response.data.access_token;
+        currentRefreshToken = response.data.refresh_token;
+        
+        showAlert('Login successful!', 'success');
+        updateTokenStatus();
+        loadUserProfile();
+        
+    } catch (error) {
+        showAlert(error.response?.data?.error || 'Login failed', 'danger');
+    }
+});
+
+// Register form handler
+document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = {
+        first_name: document.getElementById('registerFirstName').value,
+        last_name: document.getElementById('registerLastName').value,
+        email: document.getElementById('registerEmail').value,
+        password: document.getElementById('registerPassword').value
+    };
+    
+    try {
+        const response = await axios.post(`${API_BASE}/auth/register`, formData);
+        showAlert('Registration successful! Please login.', 'success');
+        document.getElementById('registerFormElement').reset();
+    } catch (error) {
+        showAlert(error.response?.data?.error || 'Registration failed', 'danger');
+    }
+});
+
+// Load user profile
+async function loadUserProfile() {
+    if (!currentToken) return;
+    
+    try {
+        const response = await axios.get(`${API_BASE}/auth/profile`, {
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        
+        const user = response.data.user;
+        document.getElementById('profileData').innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Name:</strong> ${user.first_name} ${user.last_name}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Role:</strong> ${user.role}</p>
+                    <p><strong>Status:</strong> ${user.is_active ? 'Active' : 'Inactive'}</p>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('userProfile').classList.remove('d-none');
+        document.getElementById('loginForm').classList.add('d-none');
+        document.getElementById('registerForm').classList.add('d-none');
+        
+    } catch (error) {
+        showAlert('Failed to load profile', 'danger');
+    }
+}
+
+// Refresh token
+document.getElementById('refreshTokenBtn').addEventListener('click', async () => {
+    if (!currentRefreshToken) return;
+    
+    try {
+        const response = await axios.post(`${API_BASE}/auth/refresh`, {
+            refresh_token: currentRefreshToken
+        });
+        
+        currentToken = response.data.access_token;
+        currentRefreshToken = response.data.refresh_token;
+        
+        showAlert('Token refreshed successfully!', 'success');
+        updateTokenStatus();
+        
+    } catch (error) {
+        showAlert('Token refresh failed', 'danger');
+    }
+});
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    if (!currentToken) return;
+    
+    try {
+        await axios.post(`${API_BASE}/auth/logout`, {}, {
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        
+        currentToken = null;
+        currentRefreshToken = null;
+        
+        showAlert('Logout successful!', 'success');
+        updateTokenStatus();
+        
+        document.getElementById('userProfile').classList.add('d-none');
+        document.getElementById('loginForm').classList.remove('d-none');
+        document.getElementById('registerForm').classList.remove('d-none');
+        
+    } catch (error) {
+        showAlert('Logout failed', 'danger');
+    }
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    checkHealth();
+    updateTokenStatus();
+    
+    // Check health every 30 seconds
+    setInterval(checkHealth, 30000);
+});
+</script>
+{% endblock %} 
