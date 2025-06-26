@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Security System</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 15px; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .tabs { display: flex; margin-bottom: 20px; }
+        .tab { padding: 10px 20px; cursor: pointer; background: #e9ecef; margin-right: 5px; border-radius: 4px 4px 0 0; }
+        .tab.active { background: #007bff; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .strength-meter { width: 100%; height: 10px; background: #eee; border-radius: 5px; margin-top: 5px; }
+        .strength-fill { height: 100%; border-radius: 5px; transition: all 0.3s; }
+        .strength-very-weak { background: #dc3545; width: 20%; }
+        .strength-weak { background: #fd7e14; width: 40%; }
+        .strength-fair { background: #ffc107; width: 60%; }
+        .strength-good { background: #20c997; width: 80%; }
+        .strength-strong { background: #28a745; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Password Security System Demo</h1>
+        <p>Day 10: Advanced Authentication Security Features</p>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('register')">Register</div>
+            <div class="tab" onclick="showTab('login')">Login</div>
+            <div class="tab" onclick="showTab('password-check')">Password Strength</div>
+            <div class="tab" onclick="showTab('reset')">Password Reset</div>
+            <div class="tab" onclick="showTab('security')">Security Status</div>
+        </div>
+
+        <!-- Register Tab -->
+        <div id="register" class="tab-content active">
+            <h2>User Registration</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="registerPassword" required>
+                    <div class="strength-meter">
+                        <div id="registerStrengthFill" class="strength-fill"></div>
+                    </div>
+                    <div id="registerStrengthText"></div>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <div id="registerResult"></div>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="login" class="tab-content">
+            <h2>User Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div id="loginResult"></div>
+        </div>
+
+        <!-- Password Strength Tab -->
+        <div id="password-check" class="tab-content">
+            <h2>Password Strength Checker</h2>
+            <form id="strengthForm">
+                <div class="form-group">
+                    <label>Test Password:</label>
+                    <input type="password" id="testPassword">
+                    <div class="strength-meter">
+                        <div id="strengthFill" class="strength-fill"></div>
+                    </div>
+                </div>
+                <button type="submit">Check Strength</button>
+            </form>
+            <div id="strengthResult"></div>
+        </div>
+
+        <!-- Password Reset Tab -->
+        <div id="reset" class="tab-content">
+            <h2>Password Reset</h2>
+            <div style="margin-bottom: 20px;">
+                <h3>Request Reset</h3>
+                <form id="resetRequestForm">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="resetEmail" required>
+                    </div>
+                    <button type="submit">Request Reset</button>
+                </form>
+                <div id="resetRequestResult"></div>
+            </div>
+            
+            <div>
+                <h3>Complete Reset</h3>
+                <form id="resetCompleteForm">
+                    <div class="form-group">
+                        <label>Reset Token:</label>
+                        <input type="text" id="resetToken" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password:</label>
+                        <input type="password" id="newPassword" required>
+                        <div class="strength-meter">
+                            <div id="newPasswordStrengthFill" class="strength-fill"></div>
+                        </div>
+                    </div>
+                    <button type="submit">Reset Password</button>
+                </form>
+                <div id="resetCompleteResult"></div>
+            </div>
+        </div>
+
+        <!-- Security Status Tab -->
+        <div id="security" class="tab-content">
+            <h2>Security Monitoring</h2>
+            <button onclick="checkSecurityStatus()">Check Rate Limits</button>
+            <div id="securityResult"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentToken = null;
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function checkPasswordStrength(password, fillId, textId) {
+            if (!password) return;
+            
+            try {
+                const response = await fetch('/api/auth/check-password-strength', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: password })
+                });
+                
+                const result = await response.json();
+                const fill = document.getElementById(fillId);
+                const text = document.getElementById(textId);
+                
+                fill.className = `strength-fill strength-${result.strength.toLowerCase().replace(' ', '-')}`;
+                
+                if (text) {
+                    text.innerHTML = `
+                        <strong>Strength: ${result.strength}</strong> (Score: ${result.score})<br>
+                        Entropy: ${result.entropy} bits<br>
+                        ${result.violations.length > 0 ? '<strong>Issues:</strong> ' + result.violations.join(', ') : ''}
+                    `;
+                }
+            } catch (error) {
+                console.error('Password strength check failed:', error);
+            }
+        }
+
+        // Real-time password strength checking
+        document.getElementById('registerPassword').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value, 'registerStrengthFill', 'registerStrengthText');
+        });
+
+        document.getElementById('testPassword').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value, 'strengthFill', null);
+        });
+
+        document.getElementById('newPassword').addEventListener('input', (e) => {
+            checkPasswordStrength(e.target.value, 'newPasswordStrengthFill', null);
+        });
+
+        // Register form
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('registerResult');
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="result success">
+                        Registration successful!<br>
+                        User ID: ${result.user_id}<br>
+                        Verification Token: ${result.verification_token}<br>
+                        <button onclick="verifyEmail('${result.verification_token}')">Verify Email</button>
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">
+                        ${typeof result.detail === 'object' ? result.detail.message : result.detail}
+                    </div>`;
+                }
+            } catch (error) {
+                document.getElementById('registerResult').innerHTML = 
+                    `<div class="result error">Registration failed: ${error.message}</div>`;
+            }
+        });
+
+        // Email verification
+        async function verifyEmail(token) {
+            try {
+                const response = await fetch('/api/auth/verify-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('registerResult').innerHTML += 
+                        `<div class="result success">Email verified successfully!</div>`;
+                } else {
+                    document.getElementById('registerResult').innerHTML += 
+                        `<div class="result error">Verification failed: ${result.detail}</div>`;
+                }
+            } catch (error) {
+                console.error('Verification failed:', error);
+            }
+        }
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('loginResult');
+                
+                if (response.ok) {
+                    currentToken = result.access_token;
+                    resultDiv.innerHTML = `<div class="result success">
+                        Login successful!<br>
+                        User: ${result.email}<br>
+                        Token expires in: ${result.expires_in} seconds
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">
+                        ${typeof result.detail === 'object' ? JSON.stringify(result.detail, null, 2) : result.detail}
+                    </div>`;
+                }
+            } catch (error) {
+                document.getElementById('loginResult').innerHTML = 
+                    `<div class="result error">Login failed: ${error.message}</div>`;
+            }
+        });
+
+        // Password strength form
+        document.getElementById('strengthForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('testPassword').value;
+            
+            try {
+                const response = await fetch('/api/auth/check-password-strength', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('strengthResult');
+                
+                resultDiv.innerHTML = `<div class="result ${result.valid ? 'success' : 'error'}">
+                    <h3>Password Analysis</h3>
+                    <strong>Strength:</strong> ${result.strength} (Score: ${result.score})<br>
+                    <strong>Entropy:</strong> ${result.entropy} bits<br>
+                    <strong>Valid:</strong> ${result.valid ? 'Yes' : 'No'}<br>
+                    
+                    <h4>Requirements Met:</h4>
+                    <ul>
+                        <li>Length ≥8: ${result.requirements.length ? '✓' : '✗'}</li>
+                        <li>Uppercase: ${result.requirements.uppercase ? '✓' : '✗'}</li>
+                        <li>Lowercase: ${result.requirements.lowercase ? '✓' : '✗'}</li>
+                        <li>Numbers: ${result.requirements.numbers ? '✓' : '✗'}</li>
+                        <li>Special chars: ${result.requirements.special_chars ? '✓' : '✗'}</li>
+                    </ul>
+                    
+                    ${result.violations.length > 0 ? `<h4>Security Issues:</h4><ul>${result.violations.map(v => `<li>${v}</li>`).join('')}</ul>` : ''}
+                    ${result.suggestions.length > 0 ? `<h4>Suggestions:</h4><ul>${result.suggestions.map(s => `<li>${s}</li>`).join('')}</ul>` : ''}
+                    
+                    <h4>Estimated Crack Time:</h4>
+                    <ul>
+                        <li>Online (throttled): ${result.crack_time.online_throttling_100_per_hour || 'N/A'}</li>
+                        <li>Online (no throttling): ${result.crack_time.online_no_throttling_10_per_second || 'N/A'}</li>
+                        <li>Offline (slow): ${result.crack_time.offline_slow_hashing_1e4_per_second || 'N/A'}</li>
+                        <li>Offline (fast): ${result.crack_time.offline_fast_hashing_1e10_per_second || 'N/A'}</li>
+                    </ul>
+                </div>`;
+            } catch (error) {
+                document.getElementById('strengthResult').innerHTML = 
+                    `<div class="result error">Analysis failed: ${error.message}</div>`;
+            }
+        });
+
+        // Reset request form
+        document.getElementById('resetRequestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            
+            try {
+                const response = await fetch('/api/auth/request-password-reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('resetRequestResult');
+                
+                if (response.ok && result.reset_token) {
+                    document.getElementById('resetToken').value = result.reset_token;
+                    resultDiv.innerHTML = `<div class="result success">
+                        Reset token generated: ${result.reset_token}<br>
+                        (Token filled in form below)
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result success">${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('resetRequestResult').innerHTML = 
+                    `<div class="result error">Reset request failed: ${error.message}</div>`;
+            }
+        });
+
+        // Reset complete form
+        document.getElementById('resetCompleteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = document.getElementById('resetToken').value;
+            const new_password = document.getElementById('newPassword').value;
+            
+            try {
+                const response = await fetch('/api/auth/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, new_password })
+                });
+                
+                const result = await response.json();
+                const resultDiv = document.getElementById('resetCompleteResult');
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="result success">${result.message}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">
+                        ${typeof result.detail === 'object' ? result.detail.message : result.detail}
+                    </div>`;
+                }
+            } catch (error) {
+                document.getElementById('resetCompleteResult').innerHTML = 
+                    `<div class="result error">Password reset failed: ${error.message}</div>`;
+            }
+        });
+
+        // Security status check
+        async function checkSecurityStatus() {
+            try {
+                const response = await fetch('/api/security/rate-limit-status');
+                const result = await response.json();
+                
+                document.getElementById('securityResult').innerHTML = `
+                    <div class="result success">
+                        <h3>Rate Limit Status</h3>
+                        <pre>${JSON.stringify(result, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('securityResult').innerHTML = 
+                    `<div class="result error">Security check failed: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
