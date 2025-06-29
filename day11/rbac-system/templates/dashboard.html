@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBAC Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Google Sans', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #1a73e8;
+            font-weight: 400;
+            font-size: 1.5rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .auth-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #5f6368;
+            font-weight: 500;
+        }
+        
+        input, select, button {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+        
+        button {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        
+        button:hover {
+            background: #1557b0;
+        }
+        
+        .btn-secondary {
+            background: #34a853;
+        }
+        
+        .btn-secondary:hover {
+            background: #2d8f47;
+        }
+        
+        .btn-danger {
+            background: #ea4335;
+        }
+        
+        .btn-danger:hover {
+            background: #d33b2c;
+        }
+        
+        .user-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .permission-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .permission-tag {
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 0.25rem 0.5rem;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .admin-section {
+            display: none;
+        }
+        
+        .admin-section.show {
+            display: block;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #dadce0;
+        }
+        
+        .tab {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        
+        .tab.active {
+            border-bottom-color: #1a73e8;
+            color: #1a73e8;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .status {
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔐 RBAC System Dashboard</h1>
+    </div>
+    
+    <div class="container">
+        <!-- Authentication Section -->
+        <div class="card">
+            <h2>Authentication</h2>
+            <div class="auth-section">
+                <div>
+                    <h3>Login</h3>
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginUsername">Username:</label>
+                            <input type="text" id="loginUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password:</label>
+                            <input type="password" id="loginPassword" required>
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                
+                <div>
+                    <h3>Register</h3>
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="registerEmail">Email:</label>
+                            <input type="email" id="registerEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerUsername">Username:</label>
+                            <input type="text" id="registerUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password:</label>
+                            <input type="password" id="registerPassword" required>
+                        </div>
+                        <button type="submit" class="btn-secondary">Register</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div id="userInfo" class="user-info" style="display: none;">
+                <h3>Current User</h3>
+                <div id="userDetails"></div>
+                <button id="logoutBtn" class="btn-danger" style="width: auto; margin-top: 1rem;">Logout</button>
+            </div>
+        </div>
+        
+        <!-- Admin Section -->
+        <div id="adminSection" class="card admin-section">
+            <h2>Admin Panel</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="users">Users</div>
+                <div class="tab" data-tab="roles">Roles</div>
+                <div class="tab" data-tab="permissions">Permissions</div>
+            </div>
+            
+            <div id="usersTab" class="tab-content active">
+                <h3>User Management</h3>
+                <button id="loadUsers" class="btn-secondary">Load Users</button>
+                <div id="usersList"></div>
+            </div>
+            
+            <div id="rolesTab" class="tab-content">
+                <h3>Role Management</h3>
+                <button id="loadRoles" class="btn-secondary">Load Roles</button>
+                <div id="rolesList"></div>
+            </div>
+            
+            <div id="permissionsTab" class="tab-content">
+                <h3>Permission Management</h3>
+                <button id="loadPermissions" class="btn-secondary">Load Permissions</button>
+                <div id="permissionsList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="status"></div>
+    
+    <script>
+        let currentToken = localStorage.getItem('access_token');
+        let currentUser = null;
+        
+        // API Base URL
+        const API_BASE = '/api/v1';
+        
+        // Show status message
+        function showStatus(message, type = 'success') {
+            const status = document.getElementById('status');
+            status.innerHTML = `<div class="status ${type}">${message}</div>`;
+            setTimeout(() => status.innerHTML = '', 5000);
+        }
+        
+        // Make API request with auth
+        async function apiRequest(url, options = {}) {
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            
+            if (currentToken) {
+                headers['Authorization'] = `Bearer ${currentToken}`;
+            }
+            
+            const response = await fetch(API_BASE + url, {
+                ...options,
+                headers
+            });
+            
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.detail || 'Request failed');
+            }
+            
+            return response.json();
+        }
+        
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const formData = new FormData();
+                formData.append('username', document.getElementById('loginUsername').value);
+                formData.append('password', document.getElementById('loginPassword').value);
+                
+                const response = await fetch(API_BASE + '/auth/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    currentToken = data.access_token;
+                    localStorage.setItem('access_token', currentToken);
+                    await loadCurrentUser();
+                    showStatus('Login successful!');
+                } else {
+                    showStatus(data.detail, 'error');
+                }
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        });
+        
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const data = {
+                    email: document.getElementById('registerEmail').value,
+                    username: document.getElementById('registerUsername').value,
+                    password: document.getElementById('registerPassword').value
+                };
+                
+                await apiRequest('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                
+                showStatus('Registration successful! Please login.');
+                document.getElementById('registerForm').reset();
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        });
+        
+        // Load current user
+        async function loadCurrentUser() {
+            try {
+                currentUser = await apiRequest('/auth/me');
+                
+                const userDetails = document.getElementById('userDetails');
+                userDetails.innerHTML = `
+                    <p><strong>Username:</strong> ${currentUser.username}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <p><strong>Roles:</strong> ${currentUser.roles.map(r => r.name).join(', ') || 'None'}</p>
+                    <div class="permission-list">
+                        ${currentUser.permissions.map(p => `<span class="permission-tag">${p}</span>`).join('')}
+                    </div>
+                `;
+                
+                document.getElementById('userInfo').style.display = 'block';
+                
+                // Show admin section if user has admin permissions
+                if (currentUser.permissions.includes('manage_users') || 
+                    currentUser.permissions.includes('manage_roles') || 
+                    currentUser.permissions.includes('manage_permissions')) {
+                    document.getElementById('adminSection').classList.add('show');
+                }
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        }
+        
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            currentToken = null;
+            currentUser = null;
+            localStorage.removeItem('access_token');
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('adminSection').classList.remove('show');
+            showStatus('Logged out successfully!');
+        });
+        
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + 'Tab').classList.add('active');
+            });
+        });
+        
+        // Load users
+        document.getElementById('loadUsers').addEventListener('click', async () => {
+            try {
+                const users = await apiRequest('/admin/users');
+                const usersList = document.getElementById('usersList');
+                
+                usersList.innerHTML = `
+                    <table style="width: 100%; margin-top: 1rem; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">ID</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Username</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Email</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Roles</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(user => `
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${user.id}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${user.username}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${user.email}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${user.roles.map(r => r.name).join(', ')}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${user.is_active ? '✅' : '❌'}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        });
+        
+        // Load roles
+        document.getElementById('loadRoles').addEventListener('click', async () => {
+            try {
+                const roles = await apiRequest('/admin/roles');
+                const rolesList = document.getElementById('rolesList');
+                
+                rolesList.innerHTML = `
+                    <table style="width: 100%; margin-top: 1rem; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">ID</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Name</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Description</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Permissions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${roles.map(role => `
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${role.id}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${role.name}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${role.description || ''}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${role.permissions.map(p => p.name).join(', ')}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        });
+        
+        // Load permissions
+        document.getElementById('loadPermissions').addEventListener('click', async () => {
+            try {
+                const permissions = await apiRequest('/admin/permissions');
+                const permissionsList = document.getElementById('permissionsList');
+                
+                permissionsList.innerHTML = `
+                    <table style="width: 100%; margin-top: 1rem; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">ID</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Name</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Description</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Resource</th>
+                                <th style="padding: 0.5rem; text-align: left; border: 1px solid #dadce0;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${permissions.map(permission => `
+                                <tr>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${permission.id}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${permission.name}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${permission.description || ''}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${permission.resource}</td>
+                                    <td style="padding: 0.5rem; border: 1px solid #dadce0;">${permission.action}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                showStatus(error.message, 'error');
+            }
+        });
+        
+        // Load current user on page load if token exists
+        if (currentToken) {
+            loadCurrentUser();
+        }
+    </script>
+</body>
+</html>
