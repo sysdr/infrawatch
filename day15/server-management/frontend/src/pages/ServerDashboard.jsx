@@ -33,6 +33,7 @@ function ServerDashboard() {
     os_version: ''
   });
   const [submitting, setSubmitting] = useState(false);
+  const [nameError, setNameError] = useState('');
 
   useEffect(() => {
     loadServers();
@@ -104,7 +105,16 @@ function ServerDashboard() {
       loadServers(); // Refresh the server list
     } catch (error) {
       console.error('Failed to create server:', error);
-      alert('Failed to create server. Please try again.');
+      
+      // Handle specific error messages from the API
+      let errorMessage = 'Failed to create server. Please try again.';
+      if (error.response && error.response.data && error.response.data.detail) {
+        errorMessage = error.response.data.detail;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      alert(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -116,6 +126,11 @@ function ServerDashboard() {
       ...prev,
       [name]: value
     }));
+    
+    // Clear name error when user starts typing
+    if (name === 'name') {
+      setNameError('');
+    }
   };
 
   const getStatusStats = () => {
@@ -414,9 +429,12 @@ function ServerDashboard() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="input"
+                    className={`input ${nameError ? 'border-red-500' : ''}`}
                     placeholder="Enter server name"
                   />
+                  {nameError && (
+                    <p className="text-red-500 text-sm mt-1">{nameError}</p>
+                  )}
                 </div>
                 
                 <div>

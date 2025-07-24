@@ -19,6 +19,14 @@ router = APIRouter(prefix="/api/servers", tags=["servers"])
 
 @router.post("/", response_model=ServerSchema)
 def create_server(server: ServerCreate, db: Session = Depends(get_db)):
+    # Check if server with same name already exists
+    existing_server = db.query(Server).filter(Server.name == server.name).first()
+    if existing_server:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Server with name '{server.name}' already exists. Please choose a different name."
+        )
+    
     # Create server instance
     db_server = Server(**server.dict(exclude={'tag_ids'}))
     
@@ -27,10 +35,17 @@ def create_server(server: ServerCreate, db: Session = Depends(get_db)):
         tags = db.query(Tag).filter(Tag.id.in_(server.tag_ids)).all()
         db_server.tags = tags
     
-    db.add(db_server)
-    db.commit()
-    db.refresh(db_server)
-    return db_server
+    try:
+        db.add(db_server)
+        db.commit()
+        db.refresh(db_server)
+        return db_server
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=400,
+            detail=f"Failed to create server: {str(e)}"
+        )
 
 @router.get("/", response_model=List[ServerSchema])
 def list_servers(

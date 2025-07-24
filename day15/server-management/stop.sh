@@ -5,6 +5,9 @@
 
 set -e  # Exit on any error
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -31,7 +34,7 @@ print_error() {
 
 # Function to check if containers are running
 containers_running() {
-    docker-compose -f docker/docker-compose.yml ps --services --filter "status=running" | grep -q .
+    docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" ps --services --filter "status=running" | grep -q .
 }
 
 # Function to stop services
@@ -39,7 +42,7 @@ stop_services() {
     print_status "Stopping Docker services..."
     
     if containers_running; then
-        docker-compose -f docker/docker-compose.yml down
+        docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" down
         print_success "Services stopped successfully"
     else
         print_warning "No running services found"
@@ -75,14 +78,14 @@ remove_demo_data() {
     print_status "Removing demo data..."
     
     # Remove test database file if it exists
-    if [ -f "backend/test.db" ]; then
-        rm -f backend/test.db
+    if [ -f "$SCRIPT_DIR/backend/test.db" ]; then
+        rm -f "$SCRIPT_DIR/backend/test.db"
         print_success "Removed test database"
     fi
     
     # Remove any Python cache files
-    find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-    find . -name "*.pyc" -delete 2>/dev/null || true
+    find "$SCRIPT_DIR" -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+    find "$SCRIPT_DIR" -name "*.pyc" -delete 2>/dev/null || true
     
     print_success "Demo data cleaned up"
 }
@@ -131,8 +134,8 @@ main() {
     echo "=========================================="
     
     # Check if Docker Compose file exists
-    if [ ! -f "docker/docker-compose.yml" ]; then
-        print_error "Docker Compose file not found at docker/docker-compose.yml"
+    if [ ! -f "$SCRIPT_DIR/docker/docker-compose.yml" ]; then
+        print_error "Docker Compose file not found at $SCRIPT_DIR/docker/docker-compose.yml"
         exit 1
     fi
     
@@ -152,7 +155,7 @@ main() {
     print_success "Demo stopped successfully!"
     echo "=========================================="
     echo ""
-    echo "To start the demo again, run: ./start.sh"
+    echo "To start the demo again, run: $SCRIPT_DIR/start.sh"
     echo ""
 }
 

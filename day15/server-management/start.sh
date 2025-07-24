@@ -5,6 +5,9 @@
 
 set -e  # Exit on any error
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -62,14 +65,8 @@ wait_for_service() {
 run_tests() {
     print_status "Running backend tests..."
     
-    # Run backend tests
-    cd backend
-    if command_exists python3; then
-        python3 -m pytest tests/ -v
-    else
-        python -m pytest tests/ -v
-    fi
-    cd ..
+    # Run backend tests inside the Docker container
+    docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" exec -T backend python -m pytest tests/ -v
     
     print_success "Backend tests completed"
 }
@@ -138,11 +135,11 @@ main() {
     
     # Stop any existing containers
     print_status "Stopping any existing containers..."
-    docker-compose -f docker/docker-compose.yml down --remove-orphans 2>/dev/null || true
+    docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" down --remove-orphans 2>/dev/null || true
     
     # Build and start services
     print_status "Building and starting services..."
-    docker-compose -f docker/docker-compose.yml up --build -d
+    docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" up --build -d
     
     # Wait for services to be ready
     print_status "Waiting for services to start..."
@@ -151,7 +148,7 @@ main() {
     # Wait for backend
     if ! wait_for_service "http://localhost:8000/health" "Backend API"; then
         print_error "Backend failed to start properly"
-        docker-compose -f docker/docker-compose.yml logs backend
+        docker-compose -f "$SCRIPT_DIR/docker/docker-compose.yml" logs backend
         exit 1
     fi
     
@@ -180,8 +177,8 @@ main() {
     echo "  - Swagger UI:  http://localhost:8000/docs"
     echo "  - ReDoc:       http://localhost:8000/redoc"
     echo ""
-    echo "To stop the demo, run: ./stop.sh"
-    echo "To view logs, run: docker-compose -f docker/docker-compose.yml logs -f"
+    echo "To stop the demo, run: $(dirname "$SCRIPT_DIR")/stop.sh"
+    echo "To view logs, run: docker-compose -f $SCRIPT_DIR/docker/docker-compose.yml logs -f"
     echo ""
 }
 
