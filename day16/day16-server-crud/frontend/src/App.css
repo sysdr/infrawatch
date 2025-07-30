@@ -1,0 +1,62 @@
+.App {
+  text-align: left;
+}
+
+/* Google Cloud Skills Boost inspired styles */
+.MuiCard-root {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  border: 1px solid #e8eaed !important;
+}
+
+.MuiAppBar-root {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+
+.MuiButton-contained {
+  border-radius: 4px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12) !important;
+}
+
+.MuiButton-outlined {
+  border-radius: 4px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+}
+
+.MuiTableHead-root {
+  background-color: #f8f9fa !important;
+}
+
+.MuiTableCell-head {
+  font-weight: 600 !important;
+  color: #3c4043 !important;
+}
+
+.MuiChip-root {
+  font-weight: 500 !important;
+}
+
+.MuiTextField-root .MuiInputBase-root {
+  border-radius: 4px !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
