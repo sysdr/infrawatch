@@ -1,0 +1,84 @@
+.ant-layout-sider {
+  background: #001529 !important;
+}
+
+.ant-menu-dark {
+  background: #001529;
+}
+
+.ant-layout-content {
+  background: #f0f2f5;
+}
+
+.server-card {
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-healthy {
+  background-color: #52c41a;
+}
+
+.status-degraded {
+  background-color: #faad14;
+}
+
+.status-unhealthy {
+  background-color: #ff4d4f;
+}
+
+.status-unreachable {
+  background-color: #8c8c8c;
+}
+
+.metric-card {
+  text-align: center;
+  padding: 20px;
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.metric-label {
+  color: #666;
+  font-size: 14px;
+}
+
+.dashboard-stats {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.validation-form {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .ant-layout-sider {
+    position: fixed !important;
+    left: -200px;
+    transition: left 0.3s;
+  }
+  
+  .ant-layout-sider.ant-layout-sider-collapsed {
+    left: 0;
+  }
+}
