@@ -1,0 +1,52 @@
+
+> server-management-ui@0.1.0 start
+> react-scripts start
+
+(node:93721) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:93721) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:93721) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Failed to compile.
+
+Module not found: Error: Can't resolve './components/common/Navbar' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src'
+WARNING in [eslint] 
+src/pages/ServerManagementPage.js
+  Line 38:6:  React Hook useEffect has a missing dependency: 'loadServers'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+ERROR in ./src/App.js 9:0-48
+Module not found: Error: Can't resolve './components/common/Navbar' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src'
+
+ERROR in ./src/App.js 10:0-50
+Module not found: Error: Can't resolve './components/common/Sidebar' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src'
+
+ERROR in ./src/App.js 12:0-56
+Module not found: Error: Can't resolve './pages/ServerDetailPage' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src'
+
+ERROR in ./src/App.js 13:0-57
+Module not found: Error: Can't resolve './hooks/useWebSocket' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src'
+
+ERROR in ./src/components/ServerList/ServerList.js 9:0-50
+Module not found: Error: Can't resolve '../ServerForm/ServerForm' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/components/ServerList'
+
+ERROR in ./src/components/ServerList/ServerList.js 10:0-47
+Module not found: Error: Can't resolve '../../services/api' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/components/ServerList'
+
+ERROR in ./src/pages/ServerManagementPage.js 9:0-61
+Module not found: Error: Can't resolve '../components/ServerForm/ServerForm' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/pages'
+
+ERROR in ./src/pages/ServerManagementPage.js 10:0-64
+Module not found: Error: Can't resolve '../components/BulkActions/BulkActions' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/pages'
+
+ERROR in ./src/pages/ServerManagementPage.js 11:0-63
+Module not found: Error: Can't resolve '../components/common/ServerMetrics' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/pages'
+
+ERROR in ./src/pages/ServerManagementPage.js 12:0-44
+Module not found: Error: Can't resolve '../services/api' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/pages'
+
+ERROR in ./src/pages/ServerManagementPage.js 13:0-53
+Module not found: Error: Can't resolve '../hooks/useWebSocket' in '/Users/sumedhshende/sysd/infrawatch/day20/day20-server-management-ui/frontend/src/pages'
+
+webpack compiled with 11 errors and 1 warning
+The build failed because the process exited too early. This probably means the system ran out of memory or someone called `kill -9` on the process.
