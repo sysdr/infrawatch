@@ -1,0 +1,89 @@
+.app {
+  min-height: 100vh;
+  background-color: #f6f7f7;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+/* WordPress.org inspired styling */
+.nav-bar {
+  background: #23282d;
+  border-bottom: 1px solid #464b50;
+}
+
+.nav-brand {
+  color: #0073aa !important;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: #b4b9be !important;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #0073aa !important;
+}
+
+.metric-card {
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.metric-card:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  transition: box-shadow 0.2s;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #0073aa;
+}
+
+.chart-container {
+  background: white;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+}
+
+.search-section {
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #e1e1e1;
+}
+
+.metric-list-item {
+  padding: 12px;
+  border-bottom: 1px solid #e1e1e1;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.metric-list-item:hover {
+  background-color: #f9f9f9;
+}
+
+.metric-type-badge {
+  display: inline-block;
+  background: #0073aa;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
