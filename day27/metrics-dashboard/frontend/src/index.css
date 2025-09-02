@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+}
+
+@layer components {
+  .wp-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
+  }
+  
+  .wp-button {
+    @apply bg-wp-blue text-white px-4 py-2 rounded hover:bg-wp-blue-light transition-colors;
+  }
+  
+  .wp-header {
+    @apply bg-wp-admin-bar text-white p-4;
+  }
+}
