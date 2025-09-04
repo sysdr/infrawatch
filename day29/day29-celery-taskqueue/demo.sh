@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "🎯 Day 29 Celery Task Queue Demo"
+echo "================================="
+
+echo "1. Open dashboard: http://localhost:3000"
+echo "2. Click 'Collect Metrics' to see high-priority tasks"
+echo "3. Click 'Process Data' to see progress tracking"
+echo "4. Click 'Generate Report' to see long-running tasks"
+echo "5. Monitor queue lengths and worker status in real-time"
+echo ""
+echo "Key features demonstrated:"
+echo "✅ Multiple task queues with different priorities"
+echo "✅ Real-time progress tracking"
+echo "✅ Retry mechanisms with exponential backoff" 
+echo "✅ Worker statistics and monitoring"
+echo "✅ Task status tracking and updates"
+echo ""
+echo "Dashboard shows WordPress.org-inspired clean interface"
+echo "All tasks execute real processing (no mocks)"
