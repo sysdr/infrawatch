@@ -1,0 +1,191 @@
+.task-queue {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #dcdcde;
+  padding: 1.5rem;
+}
+
+.task-queue h2 {
+  margin-bottom: 1.5rem;
+  color: #23282d;
+  font-size: 1.25rem;
+}
+
+.queue-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.queue-card {
+  background: #f6f7f7;
+  border-radius: 6px;
+  padding: 1rem;
+  border: 1px solid #dcdcde;
+}
+
+.queue-card h3 {
+  font-size: 1rem;
+  color: #23282d;
+  margin-bottom: 0.75rem;
+  text-transform: capitalize;
+}
+
+.queue-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--wp-blue);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--wp-grey);
+}
+
+.task-list h3 {
+  margin-bottom: 1rem;
+  color: #23282d;
+}
+
+.task-table {
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.task-header {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px 120px 100px 100px;
+  background: #f6f7f7;
+  padding: 0.75rem;
+  border-bottom: 1px solid #dcdcde;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #23282d;
+}
+
+.task-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 100px 120px 100px 100px;
+  padding: 0.75rem;
+  border-bottom: 1px solid #f0f0f1;
+  align-items: center;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.status-icon.completed { color: var(--wp-success); }
+.status-icon.running { color: var(--wp-blue); }
+.status-icon.failed { color: var(--wp-error); }
+.status-icon.pending { color: var(--wp-warning); }
+
+.status-text {
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.task-name {
+  font-weight: 500;
+  color: #23282d;
+}
+
+.queue-badge {
+  background: var(--wp-blue);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.task-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progress-bar {
+  width: 60px;
+  height: 8px;
+  background: #f0f0f1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 0.75rem;
+  color: var(--wp-grey);
+  min-width: 30px;
+}
+
+.task-worker {
+  font-size: 0.875rem;
+  color: var(--wp-grey);
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #dcdcde;
+  border-radius: 3px;
+  background: white;
+  color: #23282d;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-btn.retry {
+  border-color: var(--wp-blue);
+  color: var(--wp-blue);
+}
+
+.action-btn.retry:hover {
+  background: var(--wp-blue);
+  color: white;
+}
+
+.action-btn.cancel {
+  border-color: var(--wp-error);
+  color: var(--wp-error);
+}
+
+.action-btn.cancel:hover {
+  background: var(--wp-error);
+  color: white;
+}

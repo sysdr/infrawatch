@@ -1,0 +1,96 @@
+.metrics-overview, .metrics-detailed {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #dcdcde;
+  padding: 1.5rem;
+}
+
+.metrics-overview h2, .metrics-detailed h2 {
+  margin-bottom: 1.5rem;
+  color: #23282d;
+  font-size: 1.25rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: #f6f7f7;
+  border-radius: 6px;
+  padding: 1.5rem;
+  border: 1px solid #dcdcde;
+  position: relative;
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.metric-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.metric-title {
+  font-size: 0.875rem;
+  color: var(--wp-grey);
+  font-weight: 500;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #23282d;
+}
+
+.metric-unit {
+  font-size: 0.875rem;
+  color: var(--wp-grey);
+  font-weight: normal;
+}
+
+.metric-trend {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+}
+
+.metric-trend.positive {
+  background: rgba(0, 163, 42, 0.1);
+  color: var(--wp-success);
+}
+
+.metric-trend.negative {
+  background: rgba(214, 54, 56, 0.1);
+  color: var(--wp-error);
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.chart-container {
+  background: #f6f7f7;
+  border-radius: 6px;
+  padding: 1.5rem;
+  border: 1px solid #dcdcde;
+}
+
+.chart-container h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #23282d;
+}

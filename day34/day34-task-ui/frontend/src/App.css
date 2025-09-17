@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f6f8fa;
+  color: #24292f;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+/* WordPress.org inspired styles */
+:root {
+  --wp-blue: #0073aa;
+  --wp-blue-dark: #005177;
+  --wp-blue-light: #2ea2cc;
+  --wp-grey: #646970;
+  --wp-grey-light: #f6f7f7;
+  --wp-border: #dcdcde;
+  --wp-success: #00a32a;
+  --wp-warning: #f29b00;
+  --wp-error: #d63638;
+}
