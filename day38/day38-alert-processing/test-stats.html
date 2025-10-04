@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .loading { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Stats Page Test</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testStatsAPI() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                resultsDiv.innerHTML += '<div class="test-result loading">Testing stats API...</div>';
+                
+                const response = await fetch('http://localhost:8000/api/v1/alerts/stats/summary');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                resultsDiv.innerHTML += `
+                    <div class="test-result success">
+                        ✅ Stats API is working correctly!
+                    </div>
+                    <div class="test-result">
+                        <h3>API Response:</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+                
+                // Test if the data has the expected structure
+                if (data.states && data.severities && typeof data.recent_24h === 'number') {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result success">
+                            ✅ Data structure is correct!
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML += `
+                        <div class="test-result error">
+                            ❌ Data structure is incorrect
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="test-result error">
+                        ❌ Error testing stats API: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Run the test when page loads
+        testStatsAPI();
+    </script>
+</body>
+</html>

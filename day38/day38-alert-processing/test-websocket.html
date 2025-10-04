@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        button { background: #2271b1; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #135e96; }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div id="results"></div>
+    <button onclick="testDirectConnection()">Test Direct Connection (port 8000)</button>
+    <button onclick="testProxyConnection()">Test Proxy Connection (port 3000)</button>
+    <button onclick="createTestAlert()">Create Test Alert</button>
+
+    <script>
+        let ws = null;
+        const resultsDiv = document.getElementById('results');
+        
+        function addResult(message, type = 'info') {
+            resultsDiv.innerHTML += `<div class="test-result ${type}">${message}</div>`;
+        }
+        
+        function testDirectConnection() {
+            addResult('Testing direct WebSocket connection to ws://localhost:8000/ws...');
+            
+            try {
+                ws = new WebSocket('ws://localhost:8000/ws');
+                
+                ws.onopen = function(event) {
+                    addResult('✅ Direct WebSocket connection opened successfully!', 'success');
+                };
+                
+                ws.onmessage = function(event) {
+                    addResult(`📨 Received message: ${event.data}`, 'info');
+                };
+                
+                ws.onerror = function(error) {
+                    addResult(`❌ WebSocket error: ${error}`, 'error');
+                };
+                
+                ws.onclose = function(event) {
+                    addResult(`🔌 WebSocket closed: ${event.code} - ${event.reason}`, 'info');
+                };
+                
+            } catch (error) {
+                addResult(`❌ Error creating WebSocket: ${error.message}`, 'error');
+            }
+        }
+        
+        function testProxyConnection() {
+            addResult('Testing proxy WebSocket connection to ws://localhost:3000/ws...');
+            
+            try {
+                ws = new WebSocket('ws://localhost:3000/ws');
+                
+                ws.onopen = function(event) {
+                    addResult('✅ Proxy WebSocket connection opened successfully!', 'success');
+                };
+                
+                ws.onmessage = function(event) {
+                    addResult(`📨 Received message: ${event.data}`, 'info');
+                };
+                
+                ws.onerror = function(error) {
+                    addResult(`❌ WebSocket error: ${error}`, 'error');
+                };
+                
+                ws.onclose = function(event) {
+                    addResult(`🔌 WebSocket closed: ${event.code} - ${event.reason}`, 'info');
+                };
+                
+            } catch (error) {
+                addResult(`❌ Error creating WebSocket: ${error.message}`, 'error');
+            }
+        }
+        
+        async function createTestAlert() {
+            addResult('Creating test alert...');
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/alerts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title: 'WebSocket Test Alert',
+                        description: 'Testing WebSocket real-time updates',
+                        metric_name: 'websocket_test',
+                        service_name: 'test-service',
+                        current_value: 99.0,
+                        threshold_value: 95.0
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult(`✅ Alert created successfully: ${data.alert.id}`, 'success');
+                } else {
+                    addResult(`❌ Failed to create alert: ${response.status} ${response.statusText}`, 'error');
+                }
+                
+            } catch (error) {
+                addResult(`❌ Error creating alert: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
