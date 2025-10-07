@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply font-sans text-slate-100 antialiased;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-slate-100;
+  }
+  
+  h1 {
+    @apply text-3xl;
+  }
+  
+  h2 {
+    @apply text-2xl;
+  }
+  
+  h3 {
+    @apply text-xl;
+  }
+  
+  h4 {
+    @apply text-lg;
+  }
+}
+
+@layer components {
+  /* Modern Button System */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-primary-500 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-ghost {
+    @apply btn text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-primary-500;
+  }
+  
+  .btn-danger {
+    @apply btn bg-danger-600 text-white hover:bg-danger-700 focus:ring-danger-500 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-success {
+    @apply btn bg-success-600 text-white hover:bg-success-700 focus:ring-success-500 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+  
+  /* Card System */
+  .card {
+    @apply bg-white rounded-xl border border-gray-200 shadow-soft;
+  }
+  
+  .card-elevated {
+    @apply bg-white rounded-xl border border-gray-200 shadow-medium;
+  }
+  
+  .card-interactive {
+    @apply card hover:shadow-medium transition-shadow duration-200 cursor-pointer;
+  }
+  
+  /* Input System */
+  .input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
+  }
+  
+  .input-error {
+    @apply input border-danger-300 focus:ring-danger-500 focus:border-danger-500;
+  }
+  
+  /* Badge System */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-success {
+    @apply badge bg-success-100 text-success-800;
+  }
+  
+  .badge-warning {
+    @apply badge bg-warning-100 text-warning-800;
+  }
+  
+  .badge-danger {
+    @apply badge bg-danger-100 text-danger-800;
+  }
+  
+  .badge-info {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+  
+  .badge-gray {
+    @apply badge bg-gray-100 text-gray-800;
+  }
+  
+  /* Navigation */
+  .nav-item {
+    @apply flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200;
+  }
+  
+  .nav-item-active {
+    @apply nav-item bg-primary-600 text-white shadow-sm;
+  }
+  
+  .nav-item-inactive {
+    @apply nav-item text-gray-600 hover:text-gray-900 hover:bg-gray-100;
+  }
+  
+  /* Stats Cards */
+  .stat-card {
+    @apply card p-6 hover:shadow-medium transition-all duration-200;
+  }
+  
+  .stat-icon {
+    @apply p-3 rounded-xl;
+  }
+  
+  .stat-icon-primary {
+    @apply stat-icon bg-primary-100 text-primary-600;
+  }
+  
+  .stat-icon-success {
+    @apply stat-icon bg-success-100 text-success-600;
+  }
+  
+  .stat-icon-warning {
+    @apply stat-icon bg-warning-100 text-warning-600;
+  }
+  
+  .stat-icon-danger {
+    @apply stat-icon bg-danger-100 text-danger-600;
+  }
+  
+  /* Animations - Use Tailwind utilities directly */
+  
+  /* Legacy support */
+  .wp-button {
+    @apply btn-primary;
+  }
+  
+  .wp-button-secondary {
+    @apply btn-secondary;
+  }
+  
+  .wp-input {
+    @apply input;
+  }
+  
+  .wp-card {
+    @apply card;
+  }
+  
+  .wp-badge {
+    @apply badge;
+  }
+  
+  .wp-badge-success {
+    @apply badge-success;
+  }
+  
+  .wp-badge-warning {
+    @apply badge-warning;
+  }
+  
+  .wp-badge-error {
+    @apply badge-danger;
+  }
+  
+  .wp-badge-info {
+    @apply badge-info;
+  }
+}
