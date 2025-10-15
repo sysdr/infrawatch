@@ -1,0 +1,160 @@
+.metric-simulator h2 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.simulator-description {
+    color: #7f8c8d;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.simulator-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.control-group label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.control-group select,
+.value-input {
+    padding: 10px;
+    border: 2px solid #e1e8ed;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.control-group select:focus,
+.value-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.value-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #e1e8ed;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.value-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.value-slider::-webkit-slider-thumb:hover {
+    background: #2980b9;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: #2980b9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #7f8c8d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(149, 165, 166, 0.3);
+}
+
+.simulator-message {
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.simulator-message.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.simulator-message.error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.simulator-hints {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+.simulator-hints h3 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.simulator-hints ul {
+    list-style: none;
+    padding: 0;
+}
+
+.simulator-hints li {
+    padding: 4px 0;
+    color: #7f8c8d;
+    font-size: 0.85rem;
+}
+
+.simulator-hints li:before {
+    content: "→ ";
+    color: #3498db;
+    font-weight: bold;
+    margin-right: 8px;
+}
