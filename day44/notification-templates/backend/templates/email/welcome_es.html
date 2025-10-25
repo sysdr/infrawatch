@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a {{app_name}}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { font-size: 24px; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .content { line-height: 1.6; color: #333; }
+        .button { display: inline-block; padding: 12px 24px; background: #2563eb; color: white; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 14px; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">{{app_name}}</div>
+            <h1>¡Bienvenido, {{user.first_name}}! 🎉</h1>
+        </div>
+        
+        <div class="content">
+            <p>Hola {{user.first_name}},</p>
+            
+            <p>¡Estamos emocionados de tenerte en la comunidad de {{app_name}}! Tu cuenta fue creada exitosamente el {{signup_date|datetime('long', locale)}}.</p>
+            
+            <p>Para comenzar, por favor verifica tu dirección de correo electrónico haciendo clic en el botón de abajo:</p>
+            
+            <p style="text-align: center;">
+                <a href="{{verification_link}}" class="button">Verificar Correo Electrónico</a>
+            </p>
+            
+            <p>Una vez verificado, tendrás acceso a todas las increíbles características que {{app_name}} tiene para ofrecer.</p>
+            
+            <p>Si tienes alguna pregunta, no dudes en contactar a nuestro equipo de soporte.</p>
+            
+            <p>¡Bienvenido al futuro de las notificaciones!</p>
+            
+            <p>Saludos cordiales,<br>El Equipo de {{app_name}}</p>
+        </div>
+        
+        <div class="footer">
+            <p>Este correo fue enviado a {{user.email}}. Si no creaste una cuenta, por favor ignora este correo.</p>
+        </div>
+    </div>
+</body>
+</html>

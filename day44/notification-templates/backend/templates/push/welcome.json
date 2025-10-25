@@ -1,0 +1,11 @@
+{
+    "title": "Welcome to {{app_name}}! 🎉",
+    "body": "Hi {{user.first_name}}, your account is ready! Tap to verify your email.",
+    "data": {
+        "action": "verify_email",
+        "link": "{{verification_link}}",
+        "user_id": "{{user.email}}"
+    },
+    "badge": 1,
+    "sound": "default"
+}
