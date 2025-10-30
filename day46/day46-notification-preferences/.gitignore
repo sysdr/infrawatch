@@ -1,0 +1,34 @@
+# Environments
+venv/
+.env
+.python-version
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Builds / Dist
+frontend/build/
+dist/
+build/
+
+# Python caches
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
