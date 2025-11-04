@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 font-sans;
+  }
+}
+
+@layer components {
+  .notification-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-all duration-200;
+  }
+  
+  .notification-success {
+    @apply border-l-4 border-l-green-500;
+  }
+  
+  .notification-error {
+    @apply border-l-4 border-l-red-500;
+  }
+  
+  .notification-warning {
+    @apply border-l-4 border-l-yellow-500;
+  }
+  
+  .notification-info {
+    @apply border-l-4 border-l-blue-500;
+  }
+}
