@@ -1,0 +1,29 @@
+name: standard_load_test
+description: Standard load testing scenario
+
+phases:
+  - name: ramp_up
+    duration: 60
+    target_connections: 500
+    message_rate: 10
+    
+  - name: steady_state
+    duration: 120
+    target_connections: 500
+    message_rate: 10
+    
+  - name: spike
+    duration: 30
+    target_connections: 1000
+    message_rate: 20
+    
+  - name: recovery
+    duration: 60
+    target_connections: 500
+    message_rate: 10
+
+thresholds:
+  p99_latency_ms: 100
+  error_rate: 0.01
+  connection_success_rate: 0.99
+  min_throughput_mps: 1000
