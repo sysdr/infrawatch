@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+}
+
+.metrics-card {
+  margin-bottom: 16px;
+}
+
+.chart-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
