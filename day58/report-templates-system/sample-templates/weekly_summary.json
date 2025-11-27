@@ -1,0 +1,6 @@
+{
+  "name": "Weekly Summary Report",
+  "description": "Weekly alert and performance summary",
+  "content": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { font-family: Arial, sans-serif; margin: 40px; }\n        h1 { color: #1976d2; }\n    </style>\n</head>\n<body>\n    <h1>{{ company_name }} - {{ report_type }}</h1>\n    <p>Report Period: {{ date_range }}</p>\n    <p>Total Alerts: {{ total_alerts }}</p>\n</body>\n</html>",
+  "format": "html"
+}
