@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.ant-statistic-title {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.ant-statistic-content {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.recharts-wrapper {
+  margin: 0 auto;
+}
