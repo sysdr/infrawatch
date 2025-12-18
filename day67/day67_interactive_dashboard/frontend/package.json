@@ -1,0 +1,30 @@
+{
+  "name": "interactive-dashboard-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.24.0",
+    "@mui/material": "^5.16.0",
+    "@mui/icons-material": "^5.16.0",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "recharts": "^2.12.7",
+    "zustand": "^4.5.4",
+    "@tanstack/react-query": "^5.49.0",
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "react-datepicker": "^7.3.0",
+    "react-grid-layout": "^1.4.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
