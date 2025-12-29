@@ -1,0 +1,32 @@
+{
+  "name": "team-management-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "@mui/material": "^6.1.7",
+    "@mui/icons-material": "^6.1.7",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "recharts": "^2.15.0",
+    "axios": "^1.7.9",
+    "react-router-dom": "^6.28.0"
+  },
+  "scripts": {
+    "start": "HOST=0.0.0.0 PORT=3000 FAST_REFRESH=true GENERATE_SOURCEMAP=false react-scripts start",
+    "start:fast": "HOST=0.0.0.0 PORT=3000 FAST_REFRESH=true GENERATE_SOURCEMAP=false TSC_COMPILE_ON_ERROR=true ESLINT_NO_DEV_ERRORS=true react-scripts start",
+    "start:prod": "npm run build && npx serve -s build -l 3000",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test --watchAll=false",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": ["react-app"]
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+  }
+}
