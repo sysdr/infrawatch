@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  ldap:
+    image: osixia/openldap:1.5.0
+    container_name: day76_ldap
+    environment:
+      - LDAP_ORGANISATION=Example
+      - LDAP_DOMAIN=example.com
+      - LDAP_ADMIN_PASSWORD=admin
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ./ldap/base.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+    networks:
+      - day76_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: day76_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - day76_network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: day76_postgres
+    environment:
+      - POSTGRES_USER=userdir
+      - POSTGRES_PASSWORD=userdir123
+      - POSTGRES_DB=userdir
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - day76_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: day76_backend
+    environment:
+      - DATABASE_URL=postgresql://userdir:userdir123@postgres:5432/userdir
+      - REDIS_URL=redis://redis:6379
+      - LDAP_SERVER=ldap://ldap:389
+      - LDAP_BASE_DN=dc=example,dc=com
+      - LDAP_BIND_DN=cn=admin,dc=example,dc=com
+      - LDAP_BIND_PASSWORD=admin
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - ldap
+    networks:
+      - day76_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: day76_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - day76_network
+
+networks:
+  day76_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

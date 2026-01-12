@@ -1,0 +1,74 @@
+dn: dc=example,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: Example Organization
+dc: example
+
+dn: ou=users,dc=example,dc=com
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=example,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: uid=john.doe,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: john.doe
+cn: John Doe
+sn: Doe
+givenName: John
+mail: john.doe@example.com
+userPassword: password123
+uidNumber: 1001
+gidNumber: 1001
+homeDirectory: /home/john.doe
+employeeType: Engineer
+departmentNumber: Engineering
+manager: uid=admin,ou=users,dc=example,dc=com
+
+dn: uid=jane.smith,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: jane.smith
+cn: Jane Smith
+sn: Smith
+givenName: Jane
+mail: jane.smith@example.com
+userPassword: password123
+uidNumber: 1002
+gidNumber: 1002
+homeDirectory: /home/jane.smith
+employeeType: Manager
+departmentNumber: Sales
+manager: uid=admin,ou=users,dc=example,dc=com
+
+dn: uid=admin,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+uid: admin
+cn: Admin User
+sn: User
+givenName: Admin
+mail: admin@example.com
+userPassword: admin123
+uidNumber: 1000
+gidNumber: 1000
+homeDirectory: /home/admin
+employeeType: Administrator
+departmentNumber: IT
+
+dn: cn=engineers,ou=groups,dc=example,dc=com
+objectClass: groupOfNames
+cn: engineers
+member: uid=john.doe,ou=users,dc=example,dc=com
+
+dn: cn=sales,ou=groups,dc=example,dc=com
+objectClass: groupOfNames
+cn: sales
+member: uid=jane.smith,ou=users,dc=example,dc=com

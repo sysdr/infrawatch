@@ -1,0 +1,122 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+.hypothesis/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.log
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.npm
+.node_repl_history
+*.tgz
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+day76_user_directory/backend/venv/
+day76_user_directory/frontend/node_modules/
+day76_user_directory/.pytest_cache/
+day76_user_directory/**/__pycache__/
+day76_user_directory/**/*.pyc
+
+# Istio
+*.yaml.istio
+*.yml.istio
+istio-*
+*istio*
+
+# Secrets and keys
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+secrets/
+.secrets/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+test.db
+*.db-journal
