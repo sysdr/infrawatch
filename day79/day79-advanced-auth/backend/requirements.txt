@@ -1,0 +1,22 @@
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10
+redis==5.2.0
+pyjwt==2.9.0
+cryptography==44.0.0
+passlib[argon2]==1.7.4
+python-multipart==0.0.17
+python-jose[cryptography]==3.3.0
+pyotp==2.9.0
+qrcode==8.0
+pillow==11.0.0
+httpx==0.28.1
+pydantic==2.10.3
+pydantic-settings==2.6.1
+# python-saml==2.13.0  # Commented out - requires additional system dependencies
+twilio==9.3.7
+geoip2==4.8.0
+pytest==8.3.4
+pytest-asyncio==0.24.0
+pytest-cov==6.0.0
