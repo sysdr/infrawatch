@@ -1,0 +1,74 @@
+.App {
+  text-align: center;
+}
+
+.metric-card {
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.metric-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.event-item {
+  padding: 12px;
+  border-left: 4px solid #1890ff;
+  margin-bottom: 8px;
+  background: white;
+  border-radius: 4px;
+}
+
+.event-item.CRITICAL {
+  border-left-color: #f5222d;
+}
+
+.event-item.HIGH {
+  border-left-color: #fa8c16;
+}
+
+.event-item.MEDIUM {
+  border-left-color: #faad14;
+}
+
+.event-item.LOW {
+  border-left-color: #52c41a;
+}
+
+.severity-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.severity-CRITICAL {
+  background: #fff1f0;
+  color: #f5222d;
+}
+
+.severity-HIGH {
+  background: #fff7e6;
+  color: #fa8c16;
+}
+
+.severity-MEDIUM {
+  background: #fffbe6;
+  color: #faad14;
+}
+
+.severity-LOW {
+  background: #f6ffed;
+  color: #52c41a;
+}
