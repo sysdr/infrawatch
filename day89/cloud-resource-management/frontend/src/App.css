@@ -1,0 +1,5 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif; background-color: #f5f5f5; }
+.recharts-text { font-size: 12px; }
+.MuiCard-root { transition: transform 0.2s, box-shadow 0.2s; }
+.MuiCard-root:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
