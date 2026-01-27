@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+ENV NODE_OPTIONS=--max-old-space-size=4096
+ENV CI=false
+ENV DISABLE_ESLINT_PLUGIN=true
+
+COPY frontend/package*.json ./
+RUN npm install && npm install -g serve
+
+COPY frontend/ .
+
+# Build instead of dev server (dev server often hangs in containers)
+RUN npm run build
+
+EXPOSE 3000
+CMD ["serve", "-s", "build", "-l", "3000"]
