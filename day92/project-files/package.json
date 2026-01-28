@@ -1,0 +1,10 @@
+{
+  "name": "day92-log-aggregation",
+  "private": true,
+  "description": "Run npm from day92; frontend lives in log-aggregation/frontend",
+  "scripts": {
+    "start": "cd log-aggregation/frontend && npm start",
+    "postinstall": "cd log-aggregation/frontend && npm install",
+    "build": "cd log-aggregation/frontend && npm run build"
+  }
+}
