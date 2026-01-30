@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Python
+.pytest_cache/
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Environment and secrets (never commit API keys or .env)
+.env
+.env.local
+.env.*.local
+*.pem
+secrets/
+
+# IDE, OS, logs
+.idea/
+.vscode/
+*.log
+.DS_Store
+tmp/
+temp/
+
+# Istio
+istio/
+
+# Docker
+.docker/
+
+# Coverage and test
+.coverage
+htmlcov/
+.tox/
+.nox/
