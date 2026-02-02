@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Security Log Management Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; margin: 20px; background: #f5f5f5; }
+    h1 { color: #1976d2; }
+    .cards { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0; }
+    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-width: 180px; }
+    .card h3 { margin: 0 0 8px; font-size: 14px; color: #666; }
+    .card .value { font-size: 28px; font-weight: bold; color: #333; }
+    .error { color: #d32f2f; padding: 12px; background: #ffebee; border-radius: 8px; margin: 10px 0; }
+    .loading { color: #666; }
+    a { color: #1976d2; }
+  </style>
+</head>
+<body>
+  <h1>Security Log Management Dashboard</h1>
+  <p>API: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a></p>
+  <div id="stats" class="cards loading">Loading...</div>
+  <div id="error" class="error" style="display:none"></div>
+
+  <script>
+    const API = 'http://localhost:8000/api';
+    async function load() {
+      try {
+        const [stats, compliance] = await Promise.all([
+          fetch(API + '/security/stats').then(r => r.json()),
+          fetch(API + '/compliance/metrics').then(r => r.json())
+        ]);
+        document.getElementById('stats').className = 'cards';
+        document.getElementById('stats').innerHTML = `
+          <div class="card"><h3>Total Events (24h)</h3><div class="value">${stats.events_last_24h ?? 0}</div></div>
+          <div class="card"><h3>High Severity</h3><div class="value">${stats.high_severity_events ?? 0}</div></div>
+          <div class="card"><h3>Threats Detected</h3><div class="value">${stats.threats_detected ?? 0}</div></div>
+          <div class="card"><h3>Total Events</h3><div class="value">${stats.total_events ?? 0}</div></div>
+          <div class="card"><h3>Auth Attempts</h3><div class="value">${compliance.authentication?.total_attempts ?? 0}</div></div>
+          <div class="card"><h3>Failed Auth</h3><div class="value">${compliance.authentication?.failed_attempts ?? 0}</div></div>
+          <div class="card"><h3>Compliance</h3><div class="value">${compliance.compliance_status ?? '-'}</div></div>
+        `;
+        document.getElementById('error').style.display = 'none';
+      } catch (e) {
+        document.getElementById('stats').innerHTML = '';
+        document.getElementById('error').textContent = 'Cannot reach API at ' + API + '. Ensure backend is running: ./start.sh';
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+    load();
+    setInterval(load, 30000);
+  </script>
+</body>
+</html>
