@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+"""Generate sample log entries for the dashboard."""
+import json
+from datetime import datetime, timedelta
+from pathlib import Path
+
+try:
+    from faker import Faker
+    fake = Faker()
+except ImportError:
+    fake = None
+
+LOG_FILE = Path(__file__).parent / "data" / "demo_logs.json"
+LEVELS = ["INFO", "WARN", "ERROR", "DEBUG"]
+SERVICES = ["api", "worker", "auth", "db", "cache", "nginx"]
+
+
+def make_log(i: int) -> dict:
+    ts = datetime.utcnow() - timedelta(hours=24 - i % 24, minutes=i % 60)
+    level = LEVELS[i % len(LEVELS)]
+    service = SERVICES[i % len(SERVICES)]
+    msg = fake.sentence() if fake and i % 3 else f"Sample log {i}: {level} from {service}"
+    return {
+        "id": i + 1,
+        "timestamp": ts.isoformat() + "Z",
+        "level": level,
+        "service": service,
+        "message": msg,
+        "content": f"[{ts.strftime('%H:%M:%S')}] [{level}] [{service}] {msg}",
+    }
+
+
+def main():
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    logs = [make_log(i) for i in range(50)]
+    with open(LOG_FILE, "w") as f:
+        json.dump(logs, f, indent=2)
+    print(f"Generated 50 log entries -> {LOG_FILE}")
+
+
+if __name__ == "__main__":
+    main()

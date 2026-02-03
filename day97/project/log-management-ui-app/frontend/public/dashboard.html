@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log Management Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%231e293b' width='32' height='32' rx='4'/><text x='16' y='22' font-size='18' text-anchor='middle' fill='%2322c55e'>L</text></svg>" />
+  <script src="react.production.min.js"></script>
+  <script src="react-dom.production.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    .container { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+    h1 { margin-bottom: 0.5rem; font-weight: 700; }
+    .status { color: #94a3b8; margin-bottom: 2rem; }
+    .status.ok { color: #22c55e; }
+    .status.err { color: #ef4444; }
+    .card { background: #1e293b; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+    .card h2 { margin: 0 0 1rem 0; font-size: 1.125rem; }
+    .log-item { padding: 0.75rem; margin-bottom: 0.5rem; background: #334155; border-radius: 8px; font-family: monospace; font-size: 0.875rem; }
+    .empty { color: #64748b; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    (function() {
+      const { useState, useEffect, createElement: h } = React;
+      const API_BASE = 'http://localhost:8000';
+
+      function Dashboard() {
+        const [health, setHealth] = useState(null);
+        const [logs, setLogs] = useState([]);
+        const [loading, setLoading] = useState(true);
+
+        useEffect(function() {
+          fetch(API_BASE + '/health')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { setHealth(data); })
+            .catch(function() { setHealth({ status: 'error' }); });
+        }, []);
+
+        useEffect(function() {
+          fetch(API_BASE + '/api/logs/search?q=*&limit=20')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { setLogs(data.logs || data.items || []); })
+            .catch(function() { setLogs([]); })
+            .finally(function() { setLoading(false); });
+        }, []);
+
+        var statusClass = 'status ' + (health && health.status === 'ok' ? 'ok' : 'err');
+        var statusText = health && health.status === 'ok' ? '✓ Backend connected' : '✗ Backend unavailable';
+
+        var logContent;
+        if (loading) {
+          logContent = h('p', null, 'Loading...');
+        } else if (logs.length === 0) {
+          logContent = h('p', { className: 'empty' }, 'No logs found. Run generate_logs.py to populate.');
+        } else {
+          logContent = h('ul', { style: { listStyle: 'none', padding: 0, margin: 0 } },
+            logs.slice(0, 10).map(function(log, i) {
+              return h('li', { key: i, className: 'log-item' },
+                log.message || log.content || JSON.stringify(log));
+            })
+          );
+        }
+
+        return h('div', { className: 'container' },
+          h('h1', null, 'Log Management Dashboard'),
+          h('p', { className: statusClass }, statusText),
+          h('div', { className: 'card' },
+            h('h2', null, 'Recent Logs'),
+            logContent
+          )
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(h(Dashboard));
+    })();
+  </script>
+</body>
+</html>
