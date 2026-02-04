@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Management Integration Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+    .app-bar { background: #1976d2; color: white; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .app-bar h1 { font-size: 1.25rem; font-weight: 600; }
+    .app-bar span { font-size: 0.875rem; opacity: 0.9; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid #ddd; background: white; }
+    .tab { padding: 12px 24px; cursor: pointer; border: none; background: none; font-size: 0.875rem; color: #666; }
+    .tab:hover { color: #1976d2; }
+    .tab.active { color: #1976d2; font-weight: 600; border-bottom: 2px solid #1976d2; margin-bottom: -1px; }
+    .panel { display: none; padding: 24px 0; }
+    .panel.active { display: block; }
+    .paper { background: white; border-radius: 8px; padding: 24px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .paper h2 { font-size: 1.125rem; margin-bottom: 16px; }
+    .chip { display: inline-block; padding: 4px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 500; }
+    .chip.success { background: #e8f5e9; color: #2e7d32; }
+    .chip.error { background: #ffebee; color: #c62828; }
+    .chip.warn { background: #fff3e0; color: #e65100; }
+    .chip.info { background: #e3f2fd; color: #1565c0; }
+    .log-list { background: #1e1e1e; border-radius: 8px; padding: 16px; max-height: 500px; overflow-y: auto; font-family: 'Monaco', 'Consolas', monospace; font-size: 0.85rem; }
+    .log-line { padding: 4px 0; border-bottom: 1px solid #333; }
+    .log-line:last-child { border-bottom: none; }
+    .log-ts { color: #9e9e9e; }
+    .log-info { color: #2196f3; font-weight: bold; }
+    .log-warn { color: #ff9800; font-weight: bold; }
+    .log-error { color: #f44336; font-weight: bold; }
+    .log-debug { color: #9e9e9e; font-weight: bold; }
+    .log-fatal { color: #d32f2f; font-weight: bold; }
+    .log-svc { color: #4fc3f7; }
+    .log-msg { color: #fff; }
+    .filters { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+    .filters select { padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 150px; }
+    .btn { padding: 8px 16px; border-radius: 4px; border: none; cursor: pointer; font-size: 0.875rem; }
+    .btn-outline { background: white; border: 1px solid #ddd; color: #333; }
+    .btn-primary { background: #e65100; color: white; font-weight: 600; }
+    .btn:hover { opacity: 0.9; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f5f5f5; font-weight: 600; font-size: 0.875rem; }
+    .alert-row { padding: 12px; margin-bottom: 8px; border-radius: 4px; border-left: 4px solid; }
+    .alert-row.critical { background: #ffebee; border-color: #c62828; }
+    .alert-row.warning { background: #fff3e0; border-color: #e65100; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .metric-card { background: #f5f5f5; padding: 20px; border-radius: 8px; text-align: center; }
+    .metric-value { font-size: 2rem; font-weight: 700; color: #1976d2; }
+    .metric-label { font-size: 0.875rem; color: #666; margin-top: 4px; }
+    .banner { background: #e3f2fd; padding: 12px 16px; border-radius: 4px; margin-bottom: 16px; color: #1565c0; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <header class="app-bar">
+    <h1>Log Management Integration Dashboard</h1>
+    <span>Day 98: Production Log Pipeline</span>
+  </header>
+
+  <main class="container">
+    <div class="tabs">
+      <button class="tab active" data-tab="0">Real-time Stream</button>
+      <button class="tab" data-tab="1">Search Logs</button>
+      <button class="tab" data-tab="2">Security Alerts</button>
+      <button class="tab" data-tab="3">Performance Metrics</button>
+    </div>
+
+    <!-- Tab 0: Log Stream -->
+    <div class="panel active" id="panel-0">
+      <div class="banner">Standalone demo mode — showing sample logs. No backend required.</div>
+      <div class="paper">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h2>Log Stream</h2>
+          <span class="chip success" id="log-count">10 logs</span>
+        </div>
+        <div class="filters">
+          <select id="filter-service">
+            <option value="all">All Services</option>
+            <option value="auth-api">auth-api</option>
+            <option value="user-service">user-service</option>
+            <option value="payment-service">payment-service</option>
+            <option value="notification-service">notification-service</option>
+          </select>
+          <select id="filter-level">
+            <option value="all">All Levels</option>
+            <option value="DEBUG">DEBUG</option>
+            <option value="INFO">INFO</option>
+            <option value="WARN">WARN</option>
+            <option value="ERROR">ERROR</option>
+            <option value="FATAL">FATAL</option>
+          </select>
+          <button class="btn btn-outline" onclick="clearLogs()">Clear</button>
+        </div>
+        <div class="log-list" id="log-stream"></div>
+      </div>
+    </div>
+
+    <!-- Tab 1: Search -->
+    <div class="panel" id="panel-1">
+      <div class="paper">
+        <h2>Search Logs</h2>
+        <div class="filters">
+          <input type="text" placeholder="Search..." style="padding:8px 12px;border:1px solid #ddd;border-radius:4px;min-width:200px" id="search-query">
+          <select id="search-service">
+            <option value="">All Services</option>
+            <option value="auth-api">auth-api</option>
+            <option value="user-service">user-service</option>
+            <option value="payment-service">payment-service</option>
+          </select>
+          <select id="search-level">
+            <option value="">All Levels</option>
+            <option value="INFO">INFO</option>
+            <option value="WARN">WARN</option>
+            <option value="ERROR">ERROR</option>
+          </select>
+          <button class="btn btn-primary" onclick="doSearch()">Search</button>
+        </div>
+        <p style="margin-bottom:12px;color:#666;font-size:0.875rem" id="search-result">Found 10 results</p>
+        <table>
+          <thead><tr><th>Timestamp</th><th>Level</th><th>Service</th><th>Message</th></tr></thead>
+          <tbody id="search-results"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab 2: Security Alerts -->
+    <div class="panel" id="panel-2">
+      <div class="paper">
+        <h2>Security Alerts</h2>
+        <div id="alerts-list"></div>
+      </div>
+    </div>
+
+    <!-- Tab 3: Performance -->
+    <div class="panel" id="panel-3">
+      <div class="paper">
+        <h2>Performance Metrics</h2>
+        <div class="metrics-grid" id="metrics-grid"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const DEMO_LOGS = [
+      { ts: '14:32:01.234', level: 'INFO', service: 'auth-api', message: 'User login successful' },
+      { ts: '14:32:02.101', level: 'WARN', service: 'notification-service', message: 'Rate limit approaching' },
+      { ts: '14:32:03.456', level: 'ERROR', service: 'payment-service', message: 'Payment gateway timeout' },
+      { ts: '14:32:04.789', level: 'INFO', service: 'user-service', message: 'Profile updated successfully' },
+      { ts: '14:32:05.012', level: 'DEBUG', service: 'auth-api', message: 'Token validation completed' },
+      { ts: '14:32:06.345', level: 'ERROR', service: 'auth-api', message: 'Authentication failed for user' },
+      { ts: '14:32:07.678', level: 'INFO', service: 'notification-service', message: 'Email sent successfully' },
+      { ts: '14:32:08.901', level: 'WARN', service: 'user-service', message: 'Cache miss for session' },
+      { ts: '14:32:09.234', level: 'INFO', service: 'payment-service', message: 'Transaction completed' },
+      { ts: '14:32:10.567', level: 'ERROR', service: 'notification-service', message: 'Delivery failed for batch' },
+    ];
+
+    const DEMO_ALERTS = [
+      { level: 'critical', title: 'Brute force attempt detected', desc: 'Multiple failed logins from 192.168.1.105', time: '2 min ago' },
+      { level: 'warning', title: 'Unusual API rate', desc: 'auth-api exceeded 1000 req/min', time: '5 min ago' },
+      { level: 'critical', title: 'SQL injection pattern', desc: 'Suspicious query in user-service', time: '12 min ago' },
+    ];
+
+    const DEMO_METRICS = [
+      { label: 'Logs Ingested', value: '12,847' },
+      { label: 'Logs Indexed', value: '12,801' },
+      { label: 'Alerts Triggered', value: '23' },
+      { label: 'Avg Latency (ms)', value: '45' },
+    ];
+
+    let logs = [...DEMO_LOGS];
+
+    function renderLogs() {
+      const svc = document.getElementById('filter-service').value;
+      const lvl = document.getElementById('filter-level').value;
+      const filtered = logs.filter(l => (svc === 'all' || l.service === svc) && (lvl === 'all' || l.level === lvl));
+      document.getElementById('log-count').textContent = filtered.length + ' logs';
+      document.getElementById('log-stream').innerHTML = filtered.map(l => {
+        const cls = 'log-' + l.level.toLowerCase();
+        return `<div class="log-line"><span class="log-ts">[${l.ts}]</span> <span class="${cls}">${l.level}</span> <span class="log-svc">[${l.service}]</span> <span class="log-msg">${l.message}</span></div>`;
+      }).join('');
+    }
+
+    function clearLogs() {
+      logs = [];
+      renderLogs();
+      document.getElementById('log-count').textContent = '0 logs';
+      setTimeout(() => {
+        logs = [...DEMO_LOGS];
+        renderLogs();
+      }, 1500);
+    }
+
+    function doSearch() {
+      const q = document.getElementById('search-query').value.toLowerCase();
+      const svc = document.getElementById('search-service').value;
+      const lvl = document.getElementById('search-level').value;
+      let res = DEMO_LOGS.filter(l => {
+        if (svc && l.service !== svc) return false;
+        if (lvl && l.level !== lvl) return false;
+        if (q && !l.message.toLowerCase().includes(q) && !l.service.toLowerCase().includes(q)) return false;
+        return true;
+      });
+      document.getElementById('search-result').textContent = 'Found ' + res.length + ' results';
+      document.getElementById('search-results').innerHTML = res.map(l =>
+        `<tr><td>${l.ts}</td><td><span class="chip ${l.level === 'ERROR' ? 'error' : l.level === 'WARN' ? 'warn' : 'info'}">${l.level}</span></td><td>${l.service}</td><td>${l.message}</td></tr>`
+      ).join('');
+    }
+
+    function renderAlerts() {
+      document.getElementById('alerts-list').innerHTML = DEMO_ALERTS.map(a =>
+        `<div class="alert-row ${a.level}"><strong>${a.title}</strong><br><span style="font-size:0.875rem;color:#666">${a.desc}</span><br><span style="font-size:0.75rem;color:#999">${a.time}</span></div>`
+      ).join('');
+    }
+
+    function renderMetrics() {
+      document.getElementById('metrics-grid').innerHTML = DEMO_METRICS.map(m =>
+        `<div class="metric-card"><div class="metric-value">${m.value}</div><div class="metric-label">${m.label}</div></div>`
+      ).join('');
+    }
+
+    document.querySelectorAll('.tab').forEach(t => {
+      t.onclick = () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+      };
+    });
+
+    document.getElementById('filter-service').onchange = renderLogs;
+    document.getElementById('filter-level').onchange = renderLogs;
+
+    renderLogs();
+    doSearch();
+    renderAlerts();
+    renderMetrics();
+  </script>
+</body>
+</html>
