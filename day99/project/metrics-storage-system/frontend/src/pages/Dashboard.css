@@ -1,0 +1,4 @@
+.dashboard { padding: 24px; }
+.dashboard-header { margin-bottom: 24px; }
+.dashboard-header h1 { margin-bottom: 8px; }
+.stats-row, .chart-row, .table-row { margin-bottom: 16px; }
