@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+*.db
+*.sqlite
+test.db
+
+# Node
+node_modules/
+frontend/build/
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Istio
+*istio*
+
+# Build / runtime
+*.pid
+.backend.pid
+.frontend.pid
