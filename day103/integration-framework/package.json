@@ -1,0 +1,11 @@
+{
+  "name": "integration-framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Day 103 Integration Framework - run npm run start:frontend for dashboard",
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "start:frontend": "cd frontend && npm start",
+    "start": "cd frontend && npm start",
+    }
+}

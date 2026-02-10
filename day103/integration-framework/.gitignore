@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+venv/
+.venv/
+.pytest_cache/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env / secrets (no API keys or tokens)
+.env
+.env.local
+.env.*.local
+*.pem
+
+# Runtime / local state
+*.db
+*.sqlite
+*.pid
+.backend.pid
+.frontend.pid
+*.log
+
+# Istio
+*istio*
+
+# Docker
+.docker/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
