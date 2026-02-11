@@ -1,0 +1,4 @@
+#!/bin/bash
+pkill -f "uvicorn app.main:app" 2>/dev/null || true
+pkill -f "vite" 2>/dev/null || true
+echo "Services stopped"
