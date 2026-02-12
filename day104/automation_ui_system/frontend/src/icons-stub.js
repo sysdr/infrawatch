@@ -1,0 +1,16 @@
+import React from 'react';
+const Icon = ({ children }) => React.createElement('span', { style: { fontSize: 24, verticalAlign: 'middle' } }, children);
+export const Dashboard = () => Icon({ children: '📊' });
+export const AccountTree = () => Icon({ children: '🔀' });
+export const Code = () => Icon({ children: '⌨' });
+export const Monitor = () => Icon({ children: '🖥' });
+export const Add = () => Icon({ children: '+' });
+export const Save = () => Icon({ children: '💾' });
+export const PlayArrow = () => Icon({ children: '▶' });
+export const CheckCircle = () => Icon({ children: '✓' });
+export const Error = () => Icon({ children: '✗' });
+export const Assessment = () => Icon({ children: '📈' });
+export const Edit = () => Icon({ children: '✎' });
+export const Delete = () => Icon({ children: '🗑' });
+export const Visibility = () => Icon({ children: '👁' });
+export const Schedule = () => Icon({ children: '⏱' });
