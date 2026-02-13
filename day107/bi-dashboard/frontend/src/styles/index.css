@@ -1,0 +1,26 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #2c3e50; }
+.app { min-height: 100vh; }
+.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; }
+.container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+.tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #e1e8ed; }
+.tab { padding: 0.75rem 1.5rem; background: none; border: none; cursor: pointer; font-size: 1rem; color: #657786; border-bottom: 3px solid transparent; }
+.tab.active { color: #667eea; border-bottom-color: #667eea; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.kpi-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.kpi-title { font-size: 0.875rem; color: #657786; text-transform: uppercase; }
+.kpi-value { font-size: 2rem; font-weight: 700; color: #2c3e50; }
+.trend-up { background: #d4edda; color: #155724; }
+.trend-down { background: #f8d7da; color: #721c24; }
+.trend-stable { background: #e2e8f0; color: #4a5568; }
+.loading { text-align: center; padding: 3rem; color: #657786; }
+.error { background: #fee; color: #c33; padding: 1rem; border-radius: 8px; }
+.btn { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; }
+.btn-primary { background: #667eea; color: white; }
+.controls { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.control-group label { font-size: 0.875rem; display: block; }
+.control-group select, .control-group input { padding: 0.5rem; border: 1px solid #e1e8ed; border-radius: 6px; }
+.chart-container { background: white; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.comparison-item { background: #f7fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea; }
+.comparison-value { font-size: 1.5rem; font-weight: 700; }
+.forecast-item { padding: 0.75rem; background: #f7fafc; border-radius: 6px; margin-bottom: 0.5rem; }
