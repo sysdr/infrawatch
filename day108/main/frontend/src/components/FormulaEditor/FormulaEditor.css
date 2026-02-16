@@ -1,0 +1,100 @@
+.formula-editor {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.editor-header h3 {
+    margin: 0 0 20px 0;
+    color: #1a1a1a;
+    font-size: 20px;
+}
+
+.formula-input-section {
+    margin-bottom: 24px;
+}
+
+.formula-input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    resize: vertical;
+    transition: border-color 0.3s;
+}
+
+.formula-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.validation-result {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.validation-result.valid {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+.validation-result.invalid {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.token-palette {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.token-group h4 {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.token-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.token-btn.variable {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.token-btn.operator {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.token-btn.function {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
+.token-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}

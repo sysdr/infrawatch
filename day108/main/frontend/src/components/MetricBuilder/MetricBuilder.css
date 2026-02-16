@@ -1,0 +1,165 @@
+.metric-builder {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.builder-header {
+    margin-bottom: 32px;
+}
+
+.builder-header h2 {
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+    font-size: 28px;
+}
+
+.builder-header p {
+    margin: 0;
+    color: #666;
+    font-size: 16px;
+}
+
+.form-section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-section h3 {
+    margin: 0 0 20px 0;
+    color: #1a1a1a;
+    font-size: 18px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.variable-input {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.variable-input input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.add-btn {
+    padding: 12px 24px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-btn:hover {
+    background: #45a049;
+}
+
+.variables-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.variable-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #e3f2fd;
+    color: #1976d2;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #1976d2;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.submit-btn {
+    padding: 14px 32px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76,175,80,0.3);
+}
+
+.submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
