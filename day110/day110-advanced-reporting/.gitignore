@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyc
+.Python
+
+# Testing / cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment and secrets (never commit API keys or secrets)
+.env
+.env.local
+.env.*.local
+
+# IDE / editor
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Project-specific
+backend.pid
+frontend.pid
+backend/reporting.db
+backend/generated_reports/
+
+# Istio
+*istio*
+
+# Logs
+*.log
