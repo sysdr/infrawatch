@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8112:8112"
+    environment:
+      - DATABASE_URL=sqlite:///./analytics.db
+    volumes:
+      - ./backend/models:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8112/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3112:3112"
+    depends_on:
+      - backend
