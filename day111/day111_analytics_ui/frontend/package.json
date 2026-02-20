@@ -1,0 +1,26 @@
+{
+  "name": "analytics-ui",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.13.3",
+    "zustand": "^5.0.2"
+  },
+  "scripts": {
+    "start": "BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false"
+  },
+  "eslintConfig": {"extends": ["react-app"]},
+  "browserslist": {"production": [">0.2%", "not dead"], "development": ["last 1 chrome version"]},
+  "proxy": "http://localhost:8000"
+}
