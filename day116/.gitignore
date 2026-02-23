@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+env/
+*.egg-info/
+.eggs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Build / dist
+dist/
+build/
+*.egg
+
+# Env and secrets (no API keys)
+.env
+.env.local
+.env.*.local
+*.pem
+secrets/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Istio (if present)
+istio/
+*istio*
+
+# Local project generated
+day116-caching/backend/.venv/
+day116-caching/frontend/node_modules/
+node_modules.removable/
+day116-caching/frontend/dist/
