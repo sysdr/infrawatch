@@ -1,0 +1,91 @@
+version: '3.9'
+
+networks:
+  dbopt-net:
+    driver: bridge
+
+volumes:
+  pg-primary-data:
+  pg-replica-data:
+
+services:
+  pg-primary:
+    image: postgres:16-alpine
+    container_name: pg-primary
+    networks: [dbopt-net]
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin_pass
+      POSTGRES_DB: dbopt_dev
+    volumes:
+      - pg-primary-data:/var/lib/postgresql/data
+      - ./postgres/primary/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./postgres/primary/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01_init.sql
+    command: >
+      postgres
+        -c config_file=/etc/postgresql/postgresql.conf
+        -c hba_file=/etc/postgresql/pg_hba.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d dbopt_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  pg-replica:
+    image: postgres:16-alpine
+    container_name: pg-replica
+    networks: [dbopt-net]
+    ports: ["5433:5432"]
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin_pass
+      PGPASSWORD: admin_pass
+      PGUSER: admin
+      PRIMARY_HOST: pg-primary
+    volumes:
+      - pg-replica-data:/var/lib/postgresql/data
+    entrypoint: >
+      sh -c "
+        until pg_isready -h pg-primary -U admin; do echo 'Waiting for primary...'; sleep 2; done;
+        if [ ! -f /var/lib/postgresql/data/PG_VERSION ]; then
+          echo 'Taking base backup from primary...';
+          pg_basebackup -h pg-primary -U admin -D /var/lib/postgresql/data -P -Xs -R;
+          echo 'hot_standby = on' >> /var/lib/postgresql/data/postgresql.conf;
+        fi;
+        exec docker-entrypoint.sh postgres -c hot_standby=on
+      "
+    depends_on:
+      pg-primary:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dbopt-api
+    networks: [dbopt-net]
+    ports: ["8000:8000"]
+    environment:
+      PRIMARY_DB_URL: postgresql://admin:admin_pass@pg-primary:5432/dbopt_dev
+      REPLICA_DB_URL: postgresql://admin:admin_pass@pg-replica:5432/dbopt_dev
+    depends_on:
+      pg-primary:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: dbopt-frontend
+    networks: [dbopt-net]
+    ports: ["3000:80"]
+    environment:
+      REACT_APP_API_URL: ""
+    depends_on: [api]

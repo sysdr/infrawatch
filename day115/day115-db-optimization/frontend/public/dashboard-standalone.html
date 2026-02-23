@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>DB Optimization Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; padding: 20px; }
+    h1 { color: #1b4332; margin-bottom: 8px; font-size: 24px; }
+    .sub { color: #74c69d; font-size: 12px; margin-bottom: 20px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .card { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-left: 4px solid #52b788; }
+    .card h3 { font-size: 11px; color: #74c69d; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .card .v { font-size: 24px; font-weight: 700; color: #1b4332; }
+    .card.err { border-left-color: #e63946; }
+    .card .v.err { color: #e63946; }
+    .status { padding: 12px; border-radius: 8px; margin-bottom: 16px; }
+    .status.ok { background: #d8f3dc; color: #1b4332; }
+    .status.fail { background: #fde8e8; color: #c62828; }
+    pre { background: #f5f5f5; padding: 12px; border-radius: 6px; overflow: auto; font-size: 12px; }
+    .loading { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>DB Optimization Dashboard</h1>
+  <p class="sub">Day 115 · Week 11 of 180 — Standalone verification</p>
+
+  <div id="status" class="status loading">Checking API...</div>
+  <div id="cards" class="cards"></div>
+  <h2 style="margin-bottom:8px;font-size:16px;">API health</h2>
+  <pre id="health"></pre>
+
+  <script>
+    const API = 'http://localhost:8000';
+    const statusEl = document.getElementById('status');
+    const cardsEl = document.getElementById('cards');
+    const healthEl = document.getElementById('health');
+
+    async function check() {
+      try {
+        const r = await fetch(API + '/health', { mode: 'cors' });
+        const j = await r.json().catch(() => ({}));
+        healthEl.textContent = JSON.stringify(j, null, 2);
+        if (r.ok) {
+          statusEl.textContent = 'API connected. Database: ' + (j.db || 'unknown');
+          statusEl.className = 'status ok';
+          loadSummary();
+        } else {
+          statusEl.textContent = 'API returned ' + r.status + ': ' + (j.detail || r.statusText);
+          statusEl.className = 'status fail';
+          renderCards([{ label: 'Health', value: r.status, err: true }]);
+        }
+      } catch (e) {
+        statusEl.textContent = 'Cannot reach API at ' + API + ': ' + e.message;
+        statusEl.className = 'status fail';
+        healthEl.textContent = e.toString();
+        renderCards([{ label: 'Error', value: e.message, err: true }]);
+      }
+    }
+
+    async function loadSummary() {
+      try {
+        const r = await fetch(API + '/api/dashboard/summary', { mode: 'cors' });
+        const d = await r.json();
+        renderCards([
+          { label: 'Avg latency (ms)', value: d.avg_query_latency_ms },
+          { label: 'Slow queries', value: d.slow_query_count },
+          { label: 'Replica lag (ms)', value: d.replica_lag_ms < 1 ? '<1' : d.replica_lag_ms },
+          { label: 'Connections %', value: d.connection_utilization_pct + '%' },
+        ]);
+      } catch (e) {
+        renderCards([{ label: 'Summary', value: e.message, err: true }]);
+      }
+    }
+
+    function renderCards(items) {
+      cardsEl.innerHTML = items.map(i => '<div class="card' + (i.err ? ' err' : '') + '"><h3>' + i.label + '</h3><div class="v' + (i.err ? ' err' : '') + '">' + i.value + '</div></div>').join('');
+    }
+
+    check();
+    setInterval(check, 5000);
+  </script>
+</body>
+</html>

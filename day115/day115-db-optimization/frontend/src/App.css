@@ -1,0 +1,50 @@
+.panel-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border: 1px solid #e8f5e9;
+}
+.panel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1b4332;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #d8f3dc;
+}
+.metric-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1b4332;
+  line-height: 1;
+}
+.metric-label {
+  font-size: 11px;
+  color: #74c69d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+.latency-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.latency-ok { background: #d8f3dc; color: #1b4332; }
+.latency-warn { background: #fff3cd; color: #856404; }
+.latency-critical { background: #fde8e8; color: #c62828; }
+.index-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: #e9ecef;
+  overflow: hidden;
+}
+.index-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}

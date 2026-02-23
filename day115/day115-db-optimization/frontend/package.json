@@ -1,0 +1,28 @@
+{
+  "name": "day115-db-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "axios": "^1.7.9",
+    "recharts": "^2.14.1",
+    "antd": "^5.22.3",
+    "@ant-design/icons": "^5.5.2"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.4.0"
+  },
+  "browserslist": {
+    "production": [">0.2%","not dead","not op_mini all"],
+    "development": ["last 1 chrome version","last 1 firefox version","last 1 safari version"]
+  },
+  "proxy": "http://localhost:8000"
+}
