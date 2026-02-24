@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Load Test Platform — Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 24px; }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; color: #94a3b8; }
+    .sub { color: #64748b; font-size: 0.875rem; margin-bottom: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 16px; }
+    .card label { display: block; color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .card .value { font-size: 1.5rem; font-weight: 700; color: #4caf50; }
+    .card .value.warn { color: #ff9800; }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #1e293b; border-radius: 8px; margin-bottom: 24px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; }
+    .status-dot.error { background: #f44336; }
+    .error { color: #f44336; margin-top: 16px; }
+    a { color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <h1>Load Test Platform</h1>
+  <div id="status" class="status"><span class="status-dot" id="dot"></span><span id="statusText">Checking…</span></div>
+  <div class="cards" id="cards"></div>
+  <div id="error" class="error"></div>
+  <p><a href="http://localhost:8117/docs" target="_blank">Open API docs (Swagger)</a></p>
+  <script>
+    const API = 'http://localhost:8117';
+    const dot = document.getElementById('dot');
+    const statusText = document.getElementById('statusText');
+    const cards = document.getElementById('cards');
+    const errEl = document.getElementById('error');
+
+    async function load() {
+      try {
+        const [root, health, stats] = await Promise.all([
+          fetch(API + '/').then(r => r.json()),
+          fetch(API + '/api/health').then(r => r.json()),
+          fetch(API + '/api/dashboard/stats').then(r => r.json())
+        ]);
+        dot.classList.remove('error');
+        statusText.textContent = 'Backend connected';
+        errEl.textContent = '';
+        cards.innerHTML = [
+          { label: 'Service', value: root.service || '—' },
+          { label: 'Health', value: health.status || '—' },
+          { label: 'Total users', value: stats.total_users },
+          { label: 'Total teams', value: stats.total_teams },
+          { label: 'Active sessions', value: stats.active_sessions },
+          { label: 'Requests today', value: stats.requests_today?.toLocaleString() }
+        ].map(({ label, value }) =>
+          `<div class="card"><label>${label}</label><div class="value">${value}</div></div>`
+        ).join('');
+      } catch (e) {
+        dot.classList.add('error');
+        statusText.textContent = 'Backend unreachable';
+        errEl.textContent = 'Could not reach ' + API + ': ' + e.message + '. Is ./start.sh running?';
+        cards.innerHTML = '';
+      }
+    }
+    load();
+    setInterval(load, 5000);
+  </script>
+</body>
+</html>

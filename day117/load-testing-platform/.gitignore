@@ -1,0 +1,55 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+.envrc
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs and data
+logs/
+*.log
+load-testing-platform/data/*.db
+load-testing-platform/backend/data/*.db
+
+# Build and frontend
+load-testing-platform/frontend/build/
+
+# Istio
+*istio*
+istio/
+
+# Misc
+*.bak
+*.tmp
+.cache/
