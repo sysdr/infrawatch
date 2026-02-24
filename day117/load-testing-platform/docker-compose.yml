@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8117:8117"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - BACKEND_PORT=8117
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8117/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3117:3117"
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - REACT_APP_API_URL=http://localhost:8117
+
+volumes:
+  data:
