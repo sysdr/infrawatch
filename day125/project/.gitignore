@@ -1,0 +1,20 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Build artifacts
+target/
+
+# Logs and PIDs
+*.log
+*.pid
+
+# OS
+.DS_Store
+Thumbs.db
