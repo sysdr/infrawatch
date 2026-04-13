@@ -1,0 +1,18 @@
+# Day130 local artifacts
+backend/.venv/
+backend/__pycache__/
+backend/.pytest_cache/
+backend/*.db
+backend/*.sqlite
+backend/.env
+
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Logs and PIDs
+*.log
+*.pid
+
+# Build/target dirs
+**/target/

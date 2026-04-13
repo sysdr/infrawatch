@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: { context: ./backend, dockerfile: Dockerfile }
+    container_name: infrawatch-push-backend
+    ports: ["8130:8130"]
+    environment: { DATABASE_URL: "sqlite+aiosqlite:///./infrawatch.db", ENVIRONMENT: development }
+    volumes: ["./backend:/app"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD","curl","-f","http://localhost:8130/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  frontend:
+    build: { context: ./frontend, dockerfile: Dockerfile }
+    container_name: infrawatch-push-frontend
+    ports: ["3130:80"]
+    depends_on: [backend]
+    restart: unless-stopped
