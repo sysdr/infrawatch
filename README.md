@@ -5,6 +5,11 @@ From zero-to-production every day — build, deploy, test, and operate real syst
 
 Course Link : Course Link : https://fullstackinfra.substack.com/about
 
+## Repository scope
+
+This public repository contains **Days 1–5** of the 180-day Full-Stack Infrastructure curriculum (free preview).
+
+**Days 6–130** (paid track) live in the companion repo: [infrawatch-fullstack-p](https://github.com/systemdr/infrawatch-fullstack-p).
 
 **Fast pitch (30 seconds):** Follow a daily, battle-tested curriculum that takes you step-by-step from a single working backend to a portfolio of production-ready full-stack systems — with automated tests, CI/CD, observability, and ops know-how. No fluff. Hands-on. Career-backed outcomes.
 

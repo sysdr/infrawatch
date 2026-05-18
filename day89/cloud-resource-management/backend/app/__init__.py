@@ -1,1 +1,0 @@
-# Cloud Resource Management backend
